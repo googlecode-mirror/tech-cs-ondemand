@@ -7,14 +7,14 @@ CREATE DATABASE techcsondemand;
 -- OnDemand Database Conventions
 -- class desc		MEDIUMTEXT(3000)
 -- TA/post desc		VARCHAR(255)
--- comment		VARCHAR(140)
+-- comment		VARCHAR(255)
 -- filenames are	VARCHAR(100)
 -- personal info is	VARCHAR(100)
 -- types or tags are	VARCHAR(20)
 
 
 CREATE TABLE `ClassCollection` (
-  `classid` 	INT( 10 ) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+  `classid` 	INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY ,
   `title` 	VARCHAR( 255 ) NOT NULL ,
   `description` MEDIUMTEXT NOT NULL ,
   `alias` 	VARCHAR( 20 ) NOT NULL COMMENT 'how the link will display to the user GET variables',
@@ -24,7 +24,7 @@ CREATE TABLE `ClassCollection` (
 
 
 CREATE TABLE `ClassTypes` (
-  `classid`	INT( 10 ) NOT NULL ,
+  `classid`	INT UNSIGNED NOT NULL ,
   `category`	VARCHAR( 100 ) NOT NULL COMMENT 'Subject the class belongs to: {Computer Science, Mathematics, ... }',
   PRIMARY KEY ( `classid` )
 );
@@ -63,7 +63,7 @@ CREATE TABLE `techcsondemand`.`MediaCollection1332` (
 	`filename`	VARCHAR(100) NOT NULL,
 	`created`	DATETIME     NOT NULL,
 	`timestamp`	TIMESTAMP    DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	`type`		VARCHAR(20)  NOT NULL COMMENT 'type of media { image, audio, video, Java, Python, ... }',
+	`type`		INT  NOT NULL COMMENT 'type of media { image, audio, video, Java, Python, ... }',
 	PRIMARY KEY	(`mediaid`),
 	INDEX(`postid`),
 	UNIQUE(`filename`)
@@ -73,7 +73,7 @@ CREATE TABLE `techcsondemand`.`CommentCollection1332` (
 	`commentid`	INT UNSIGNED NOT NULL AUTO_INCREMENT,
 	`postid`	INT UNSIGNED NOT NULL,
 	`taid`		INT UNSIGNED NOT NULL,
-	`comment`	VARCHAR(140) NOT NULL,
+	`comment`	VARCHAR(255) NOT NULL,
 	`rating`	INT          DEFAULT 0 COMMENT 'users can rate comments down and delete them',
 	`created`	DATETIME     NOT NULL,
 	`timestamp`	TIMESTAMP    DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -97,7 +97,7 @@ INSERT INTO `techcsondemand`.`PostCollection1332` (`postid`, `taid`, `title`, `d
 	VALUES (NULL, '1', 'Sample Post', 'This post is a sample post', 'Sample', CURRENT_TIMESTAMP);
 
 INSERT INTO `techcsondemand`.`MediaCollection1332` (`mediaid`, `postid`, `taid`, `filename`, `type`, `created`)
-	VALUES (NULL, 1, 1, 'samplefile.ext', 'Sample', CURRENT_TIMESTAMP);
+	VALUES (NULL, 1, 1, 'samplefile.ext', 2, CURRENT_TIMESTAMP);
 
 INSERT INTO `techcsondemand`.`CommentCollection1332` (`commentid`, `postid`, `taid`, `comment`, `created`)
 	VALUES (NULL, 1, 1, 'This is a sample comment', CURRENT_TIMESTAMP);

@@ -12,10 +12,10 @@
 
 function connectToDB()
 {
-	$host = "desposi1.fatcowmysql.com"; // Host name 
-	$username = "gtwaterski"; // Mysql username
-	$password = "GTski4911!"; // Mysql password 
-	$db = "gtwaterski4911"; // Database name
+	$host = ""; // Host name 
+	$username = ""; // Mysql username
+	$password = ""; // Mysql password 
+	$db = ""; // Database name
 	
 	// Connect to server and select databse.
 	$con = mysql_connect($host, $username, $password) or die('Could not connect. Go to <a href="adminLogin.php" class="links">Login Page</a>.');

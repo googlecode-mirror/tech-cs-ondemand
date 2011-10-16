@@ -1,4 +1,8 @@
 <?php
+
+include_once "OnDemandObjects.ini.php";
+include_once "Connection.ini.php";
+
 //************************************************************************
 //========================================================================
 // 								  User
@@ -8,27 +12,32 @@
 // Create
 //========================================================================
 function create_user_db($user){
+
+	`taid`		INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	`classid`	INT UNSIGNED NOT NULL,
+	`name`		VARCHAR(100) NOT NULL,
+	`email`		VARCHAR(100) NOT NULL,
+	`password`	VARCHAR(100) NOT NULL,
+	`active`	INT(1)   DEFAULT 1 COMMENT 'default true || if the TA is taking a semester off',
+	`admin`		INT(1)   DEFAULT 0 COMMENT 'default false || To specify a professor. Allowed to edit other users',
+	`info`		VARCHAR(255) COMMENT 'general TA description',
+	`picture`	VARCHAR(100),
+
 	$con = connectToDB();
 	$last_id = 0;
+	$classId = mysql_real_escape_string($user->classId);
 	$name = mysql_real_escape_string($user->name);
-	$password = mysql_real_escape_string(md5($user->password));
 	$email = mysql_real_escape_string($user->email);
-	$type = $user->type;
-	$cell = mysql_real_escape_string($user->cell_number);
-	$cell_carrier = $user->cell_carrier;
-	$emg_number = mysql_real_escape_string($user->emg_contact_number);
-	$emg_name = mysql_real_escape_string($user->emg_contact_name);
-	$active = $user->status;
+	$password = md5($user->password);
+	// active
+	// admin
+	$info = mysql_real_escape_string($user->info);
+	$picture = mysql_real_escape_string($user->picture);
 	if($con){
-		$sql = "INSERT INTO `user` (`userid`, `username`, `password`, `email`, `userstatus`, `emgcntnum`, `emgcntname`, `usertype`) " .
- 				"VALUES (NULL, '".$name."', '".$password."', '".$email."', '".$active."', '".$emg_number."', '".$emg_name."', 'User');";
+		$sql = "INSERT INTO `techcsondemand`.`TaCollection` (`classid`, `name`, `email`, `password`, `info`, `picture`) " .
+ 				"VALUES ('$classId', '$name', '$email', '$password', '$info', '$picture');";
 		if(desql($sql))
-		$last_id = mysql_insert_id();
-	}
-	if($con && $last_id){
-		$sql = "INSERT INTO `phone` (`userid`, `phonenumber`, `phonecarrier`) " .
- 		 				"VALUES ($last_id, '".$cell."', '".$cell_carrier."' );";
-		desql($sql);
+		  $last_id = mysql_insert_id();
 	}
 	if ($con){
 		breakCon($con);

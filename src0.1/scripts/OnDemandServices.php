@@ -20,21 +20,21 @@
     if ($id <= 0)
       return 0;
     // TODO
-    return new OdPost($id, 'Example Post', 'This is an example post with embedded <i>html</i>.', date_create(date('D, d M Y H:i:s')), date_create(date('D, d M Y H:i:s')), 1, 'example');
+    return new OdPost($id, 'Example Post', 'This is an example post with embedded <i>html</i>.', 1, 'example');
   }
 
   function getOdMediaById($id) {
     if ($id <= 0)
       return 0;
     // TODO
-    return new OdMedia($id, 'samepleFile.ex', 'sample', date_create(date('D, d M Y H:i:s')), date_create(date('D, d M Y H:i:s')), 1, 1);
+    return new OdMedia($id, 'samepleFile.ex', 0, 1, 1);
   }
 
   function getOdCommentById($id) {
     if ($id <= 0)
       return 0;
     // TODO
-    return new OdComment($id, 1, 1, date_create(date('D, d M Y H:i:s')), date_create(date('D, d M Y H:i:s')), 0, 'This is a sample comment with embedded <i>html</i>.');
+    return new OdComment($id, 1, 1, 0, 'This is a sample comment with embedded <i>html</i>.');
   }
 
   function getAllOdClasses() {

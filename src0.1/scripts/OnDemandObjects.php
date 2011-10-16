@@ -17,7 +17,7 @@ class OdClass {
         }
 
   function getId() {
-    return $id;
+    return $this->id;
   }
 
   function saveToDb() {
@@ -58,7 +58,7 @@ class OdTA {
   }
 
   function getId() {
-    return $id;
+    return $this->id;
   }
 
   function saveToDb() {
@@ -86,30 +86,30 @@ class OdPost {
   public $description;
   public $tag;
 
-  function __construct($id, $title, $description, $created, $lastModified, $taid, $tag) {
+  function __construct($id, $title, $description, $taid, $tag, $created = 0, $lastModified = 0) {
     $this->id = $id;
     $this->title = $title;
     $this->description = $description;
-    $this->created = $created;
-    $this->lastModified = $lastModified;
+    $this->created = $created ? $created : date_create(date('D, d M Y H:i:s'));
+    $this->lastModified = $lastModified ? $lastModified : $this->created;
     $this->taid = $taid;
     $this->tag = $tag;
   }
 
   function getId() {
-    return $id;
+    return $this->id;
   }
 
   function getCreated() {
-    return $created;
+    return $this->created;
   }
 
   function getLastModified() {
-    return $lastModified;
+    return $this->lastModified;
   }
 
   function getTAid() {
-    return $taid;
+    return $this->taid;
   }
 
   function getTA() {
@@ -153,34 +153,34 @@ class OdMedia {
   public $filename;
   public $type; 	// of SupportedFileType
 
-  function __construct($id, $filename, $type, $created, $lastModified, $taid, $postid) {
+  function __construct($id, $filename, $type, $taid, $postid, $created = 0, $lastModified = 0) {
     $this->id = $id;
     $this->filename = $filename;
     $this->type = $type;
-    $this->created = $created;
-    $this->lastModified = $lastModified;
+    $this->created = $created ? $created : date_create(date('D, d M Y H:i:s'));
+    $this->lastModified = $lastModified ? $lastModified : $this->created;
     $this->taid = $taid;
     $this->postid = $postid;
   }
 
   function getId() {
-    return $id;
+    return $this->id;
   }
 
   function getCreated() {
-    return $created;
+    return $this->created;
   }
 
   function getLastModified() {
-    return $lastModified;
+    return $this->lastModified;
   }
 
   function getTAid() {
-    return $taid;
+    return $this->taid;
   }
 
   function getPostid() {
-    return $taid;
+    return $this->taid;
   }
 
   function getTA() {
@@ -211,50 +211,50 @@ class OdComment {
   // public
   public $comment;
 
-  function __construct($id, $postid, $taid, $created, $lastModified, $rating, $comment) {
+  function __construct($id, $postid, $taid, $rating, $comment, $created = 0, $lastModified = 0) {
     $this->id = $id;
     $this->postid = $postid;
     $this->taid = $taid;
-    $this->created = $created;
-    $this->lastModified = $lastModified;
+    $this->created = $created ? $created : date_create(date('D, d M Y H:i:s'));
+    $this->lastModified = $lastModified ? $lastModified : $this->created;
     $this->rating = $rating;
     $this->comment = $comment;
   }
 
   function getId() {
-    return $id;
+    return $this->id;
   }
 
   function getCreated() {
-    return $created;
+    return $this->created;
   }
 
   function getLastModified() {
-    return $lastModified;
+    return $this->lastModified;
   }
 
   function getTAid() {
-    return $taid;
+    return $this->taid;
   }
 
   function getPostid() {
-    return $taid;
+    return $this->postid;
   }
 
   function getRating() {
-    return $rating;
+    return $this->rating;
   }
 
   function voteUp() {
-    return ++$rating;
+    return ++$this->rating;
   }
 
   function voteDown() {
-    return --$rating;
+    return --$this->rating;
   }
 
   function isDisplayed() {
-    return $rating >= $displayThreshold;
+    return $this->rating >= $this->displayThreshold;
   }
 
   function getTA() {
@@ -269,4 +269,5 @@ class OdComment {
     // TODO
   }
 }
+
 ?>
