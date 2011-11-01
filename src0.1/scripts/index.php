@@ -3,15 +3,7 @@
 <?php
 	require("styles.php");
 	require("scripts.php");
-	
-	/**
-	 * 2-D array of OdClass objects where each sub-array groups the classes
-	 * into subjects i.e.
-	 * $subjects[0] => CS
-	 * $subjects[1] => MATH
-	 * $subjects[2] => PHYS
-	 * etc.
-	 */
+
 	$subjects = getAllOdClasses();
 ?>
 <script type="text/javascript">
@@ -28,14 +20,14 @@ $(document).ready(function()
 		{
 			echo '
 		
-			$("#header_'.$subject[0]->type.'").click(function()
+			$("#header_'.$subject[0]->subject.'").click(function()
 			{
-				$("#div_'.$subject[0]->type.'").toggle("fast");
+				$("#div_'.$subject[0]->subject.'").toggle("fast");
 			});';
 			
 			// Hide all subject classes except CS initially
-			if ($subject[0]->type != 0)
-				echo '$("#div_'.$subject[0]->type.'").toggle();';
+			if ($subject[0]->subject != 'CS')
+				echo '$("#div_'.$subject[0]->subject.'").toggle();';
 		}
 	?>
 });
@@ -54,15 +46,22 @@ $(document).ready(function()
 
 <?php
 
+	// map from short class subject to full subject name
+	// eg: 'CS' => 'Computer Science'
+	$SUBJECT_NAMES = array();
+	$SUBJECT_NAMES['CS'] = 'Computer Science';
+	$SUBJECT_NAMES['MATH'] = 'Mathemagics';
+	$SUBJECT_NAMES['PHYS'] = 'Physics';
+
 	// Print all subject headers and for each subject, print all class links
 	foreach ($subjects as $subject)
 	{
-		echo '<h1 id="header_' . $subject[0]->type . '">' . $CLASS_NAMES[$subject[0]->type] . '</h1>';
+		echo '<h1 id="header_' . $subject[0]->subject . '">' . $SUBJECT_NAMES[$subject[0]->subject] . '</h1>';
 		
-		echo '<div id="div_' . $subject[0]->type .'"><br />';
+		echo '<div id="div_' . $subject[0]->subject .'"><br />';
 		foreach ($subject as $class)
 		{
-			echo '<a href="class.php?id=' . $class->getID() . '" class="class">' . $class->alias . ' ' . $class->title . '</a><br />';
+			echo '<a href="class.php?id=' . $class->getID() . '" class="class">' . $class->subject . ' ' . $class->number . ' ' . $class->title . '</a><br />';
 		}
 		echo '</div><br />';
 	}

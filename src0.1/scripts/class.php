@@ -5,7 +5,7 @@
 	require("styles.php");
 	require("scripts.php");
 	
-	$posts = getAllPosts($class->getId());
+	$posts = $class->getAllPosts();
 	mt_srand($class->order); // seed used for header random color generation
 ?>
 
@@ -54,6 +54,11 @@
 ?>
 </style>
 <script type="text/javascript">
+
+/**
+ * Remember which headers the user collapsed/expanded by storing in cookie
+ * so that on browser return the user can continue where he left off
+ */
 $(document).ready(function()
 {
 	<?php

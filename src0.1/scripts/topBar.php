@@ -13,7 +13,7 @@
 			<h2>
 			<?php
 				echo '<a href="class.php?id=' . $class->getId() . '" style="color:#000000">';
-				echo $class->alias . " " . $class->title . '</a>';
+				echo $class->subject . " " . $class->number . " " . $class->title . '</a>';
 			?>
 			</h2>
 		</td>

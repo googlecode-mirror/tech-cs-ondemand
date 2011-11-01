@@ -2,21 +2,20 @@
 
 class OdClass {
 
-  private $id;
-  public $title;
-  public $description;
-  public $alias;		// how the link will display to the user GET variables
-  public $type;		// Class category (for now, 0=CS, 1=MATH, 2=PHYS)
-  public $order;	// lower comes first (just use course numbers)
+  private $id; // unique integer id for DB
+  
+  public $subject; // shortened course subject prefix [eg: CS, MATH, PHYS, etc]
+  public $number; // 4-digit course number [eg: 1332]
+  public $title; // full class name [eg: Data Structures and Algorithms]
+  public $description; // displayed on class page w/ embedded HTML
 
-  function __construct($id, $title, $description, $alias, $type, $order){
+  function __construct($id, $subject, $number, $title, $description){
                 $this->id = $id;
+				$this->subject = $subject;
+				$this->number = $number;
                 $this->title = $title;
                 $this->description = $description;
-                $this->alias = $alias;
-                $this->type = $type;
-				$this->order = $order;
-        }
+  }
 
   function getId() {
     return $this->id;
@@ -26,8 +25,39 @@ class OdClass {
     // TODO
   }
 
-  function getAllPosts($enum) {
-    // TODO
+  /**
+   * @return a 2D array of posts where each subarray corresponds to a topic
+   *         ordering within each subarray (topic) is yet to be determined
+   *         suggested orderings: alphabetical, difficulty, temporal
+   */
+  function getAllPosts() {
+
+  	$_uid = 1; // temporary unique ID for testing
+	
+	$result = array();
+	
+	$topic = array();
+	for ($i=0; $i < 5; $i++)
+	{
+		$post = new OdPost($_uid++, "AVL Trees: Adding", "A quick overview of the steps involved in adding an element to an AVL tree. <i>See <a href=\"\">BST: Adding</a> for more basics</i>", 5, "AVL Trees");
+		$topic[] = $post;
+	}
+	$result[] = $topic;
+  
+	$topic = array();
+	for ($i=0; $i < 2; $i++)
+	{
+		$post = new OdPost($_uid++, "Merge sort", "This post contains a video of a sample merge sort iteration", 5, "Sorting");
+		$topic[] = $post;
+	}
+	$result[] = $topic;
+	
+	$topic = array();
+	$post = new OdPost($_uid++, "Hash functions", "Principles of a good hash function", 5, "Hash Tables");
+	$topic[] = $post;
+	$result[] = $topic;
+	
+	return $result;
   }
 
   function getAllTAs() {
@@ -36,7 +66,7 @@ class OdClass {
   
   static function compare($a, $b)
   {
-	return $a->order - $b->order;
+	return $a->number - $b->number;
   }
 }
 
@@ -91,18 +121,18 @@ class OdPost {
   // public
   public $title;
   public $description;
-  public $tag;
-  public $topic;
+  public $topic; // ONE category this post belongs to [eg: AVL Trees, Hash Tables, etc]
+  
+  //public $tags; // perhaps in the future we will have each post have searchable tags
 
-  function __construct($id, $title, $description, $taid, $tag, $topic, $created = 0, $lastModified = 0) {
+  function __construct($id, $title, $description, $taid, $topic, $created = 0, $lastModified = 0) {
     $this->id = $id;
     $this->title = $title;
     $this->description = $description;
+	$this->taid = $taid;
+	$this->topic = $topic;
     $this->created = $created ? $created : date_create(date('D, d M Y H:i:s'));
     $this->lastModified = $lastModified ? $lastModified : $this->created;
-    $this->taid = $taid;
-    $this->tag = $tag;
-	$this->topic = $topic;
   }
 
   function getId() {
