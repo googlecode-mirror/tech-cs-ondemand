@@ -1,12 +1,12 @@
 <?php require("HTML_top1.php"); ?>
 <?php $class = getOdClassById($_GET["id"]); ?>
-<title><?php echo $class->alias; ?> &gt;&gt; ON DEMAND</title>
+<title><?php echo $class->subject . ' ' . $class->number; ?> &gt;&gt; ON DEMAND</title>
 <?php
 	require("styles.php");
 	require("scripts.php");
 	
 	$posts = $class->getAllPosts();
-	mt_srand($class->order); // seed used for header random color generation
+	mt_srand($class->number); // seed used for header random color generation
 ?>
 
 <style type="text/css">

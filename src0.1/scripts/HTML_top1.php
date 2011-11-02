@@ -4,5 +4,6 @@
 <head>
 
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 	
 <?php require("OnDemandServices.php"); ?>
