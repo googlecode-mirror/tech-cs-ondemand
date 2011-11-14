@@ -21,7 +21,9 @@
 
 ?-->
 
-<h2 style="text-align:center">Example Post</h2><br />
+<div id="postContentWrapper">
+
+<h5 class="cen">Example Post</h5>
 
 <video width="640" height="360" controls="controls">
 	<source src="American_Accents.ogg" type="video/ogg" />
@@ -30,5 +32,6 @@
 
 <p>This is a sample post description.</p>
 
+</div>
 
 <?php require("HTML_bottom.php"); ?>
