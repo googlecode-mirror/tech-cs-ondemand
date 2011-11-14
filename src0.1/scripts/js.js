@@ -87,8 +87,40 @@ function setCookie(key, value)
 	document.cookie = key + "=" + value + "; path=/";
 }
 
-function popUp(mylink, windowname)
+function popUp(content)
 {
+	var HTML = "";
+	
+	// header
+	HTML += '<img src="banner_s.jpg" alt="TECH ON DEMAND" />';
+	
+	switch (content)
+	{
+	case "about":
+	
+		HTML += '<p class="b">About</p>';
+		
+		HTML += '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sollicitudin felis ac nibh blandit imperdiet. Donec consequat tellus eu tortor molestie vel fermentum metus iaculis. Quisque ullamcorper metus sit amet sapien consectetur eu consequat ante consectetur. Nulla facilisi. Aenean nisi turpis, accumsan sit amet pellentesque id, vestibulum ac nisi. Maecenas quis dolor non mauris lobortis posuere. Nulla neque augue, gravida vel imperdiet id, sagittis non ante. Proin ultricies pretium nulla lacinia tempor.</p>';
+		
+		break;
+	case "contact":
+	
+		HTML += '<p class="b">Contact</p>';
+		
+		HTML += '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sollicitudin felis ac nibh blandit imperdiet. Donec consequat tellus eu tortor molestie vel fermentum metus iaculis. Quisque ullamcorper metus sit amet sapien consectetur eu consequat ante consectetur. Nulla facilisi. Aenean nisi turpis, accumsan sit amet pellentesque id, vestibulum ac nisi. Maecenas quis dolor non mauris lobortis posuere. Nulla neque augue, gravida vel imperdiet id, sagittis non ante. Proin ultricies pretium nulla lacinia tempor.</p>';
+		
+		break;
+	}
+	
+	// footer
+	HTML += '<a href="" onclick="closePopUp();return false;">Close Window</a>';
+	
+	$("#popUp").html(HTML);
+	
+	$("#popUpBG").fadeTo("fast",0.5);
+	$("#popUp").fadeIn("fast");
+
+	/* OLD-FASHIONED POP-UP
 	if (!window.focus)
 		return true;
 	
@@ -113,6 +145,13 @@ function popUp(mylink, windowname)
 		'scrollbars=no'
 	);
 	return false;
+	*/
+}
+
+function closePopUp()
+{
+	$("#popUp").fadeOut("fast");
+	$("#popUpBG").fadeOut("fast");
 }
 
 WebFontConfig = {
