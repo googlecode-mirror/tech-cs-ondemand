@@ -21,7 +21,7 @@
 
 ?-->
 
-<h2 style="text-align:center">Example Post</h2>
+<h2 style="text-align:center">Example Post</h2><br />
 
 <video width="640" height="360" controls="controls">
 	<source src="American_Accents.ogg" type="video/ogg" />
