@@ -14,7 +14,7 @@
 
 </div>
 </div> <!--end mainFrame div-->
-<div id="popUpBG"></div>
+<div id="popUpBG" onclick="closePopUp();"></div>
 <div id="popUp"></div>
 </body>
 </html>
