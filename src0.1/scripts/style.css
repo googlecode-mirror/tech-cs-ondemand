@@ -212,8 +212,10 @@ h5 /* generic header */
 	border:none;
 }
 
-
-
+.textField:focus
+{
+	background-color:rgb(255,255,150);
+}
 
 /* MICRO ATTRIBUTES */
 .left {text-align:left;}
