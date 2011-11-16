@@ -47,6 +47,10 @@ function validate(obj)
 <script type="text/javascript">
 flowplayer("player", {src:"flowplayer-3.2.7.swf", wmode:"opaque"},
 {
+	onload:function()
+	{
+		this.setVolume(100);
+	},
 	clip:
 	{
 		autoPlay:false,
