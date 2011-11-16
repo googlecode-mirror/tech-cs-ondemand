@@ -125,7 +125,6 @@ a.post:hover
 	margin-left:-200px;
 	z-index:2;
 	padding:20px;
-	text-align:center;
 	display:none;
 	
 	-moz-box-shadow:0px 0px 10px 5px #555555; /* Firefox 3.6 and earlier */
@@ -193,6 +192,28 @@ h5 /* generic header */
 	font-size:16px;
 	font-weight:bold;
 }
+
+/* FORM STUFF */
+.textFieldWrapper
+{
+	width:400px;
+	margin-bottom:15px;
+
+	-moz-box-shadow:0px 0px 3px 3px #CCCCCC; /* Firefox 3.6 and earlier */
+	-webkit-box-shadow:0px 0px 3px 3px #CCCCCC; /* Safari */
+	box-shadow:0px 0px 3px 3px #CCCCCC;
+}
+
+.textField
+{
+	width:400px;
+	font-size:16px;
+	font-weight:bold;
+	border:none;
+}
+
+
+
 
 /* MICRO ATTRIBUTES */
 .left {text-align:left;}

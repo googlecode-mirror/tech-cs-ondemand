@@ -87,6 +87,21 @@ function setCookie(key, value)
 	document.cookie = key + "=" + value + "; path=/";
 }
 
+function freshen(field)
+{
+	if (field.value == "Username" || field.value == "Password")
+	{
+		if (field.value == "Password")
+		{
+			$("#pfield").html('<input type="password" name="password" class="textField" id="_pfield" />');
+			$("#_pfield").focus();
+		}
+
+		field.value = "";
+		field.style.color = "#000000";
+	}
+}
+
 function popUp(content)
 {
 	var HTML = "";
@@ -100,15 +115,37 @@ function popUp(content)
 	
 		HTML += '<p class="b">About</p>';
 		
-		HTML += '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sollicitudin felis ac nibh blandit imperdiet. Donec consequat tellus eu tortor molestie vel fermentum metus iaculis. Quisque ullamcorper metus sit amet sapien consectetur eu consequat ante consectetur. Nulla facilisi. Aenean nisi turpis, accumsan sit amet pellentesque id, vestibulum ac nisi. Maecenas quis dolor non mauris lobortis posuere. Nulla neque augue, gravida vel imperdiet id, sagittis non ante. Proin ultricies pretium nulla lacinia tempor.</p>';
+		HTML += '<p class="left">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sollicitudin felis ac nibh blandit imperdiet. Donec consequat tellus eu tortor molestie vel fermentum metus iaculis. Quisque ullamcorper metus sit amet sapien consectetur eu consequat ante consectetur. Nulla facilisi. Aenean nisi turpis, accumsan sit amet pellentesque id, vestibulum ac nisi. Maecenas quis dolor non mauris lobortis posuere. Nulla neque augue, gravida vel imperdiet id, sagittis non ante. Proin ultricies pretium nulla lacinia tempor.</p>';
 		
 		break;
 	case "contact":
 	
 		HTML += '<p class="b">Contact</p>';
 		
-		HTML += '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sollicitudin felis ac nibh blandit imperdiet. Donec consequat tellus eu tortor molestie vel fermentum metus iaculis. Quisque ullamcorper metus sit amet sapien consectetur eu consequat ante consectetur. Nulla facilisi. Aenean nisi turpis, accumsan sit amet pellentesque id, vestibulum ac nisi. Maecenas quis dolor non mauris lobortis posuere. Nulla neque augue, gravida vel imperdiet id, sagittis non ante. Proin ultricies pretium nulla lacinia tempor.</p>';
+		HTML += '<p class="left">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sollicitudin felis ac nibh blandit imperdiet. Donec consequat tellus eu tortor molestie vel fermentum metus iaculis. Quisque ullamcorper metus sit amet sapien consectetur eu consequat ante consectetur. Nulla facilisi. Aenean nisi turpis, accumsan sit amet pellentesque id, vestibulum ac nisi. Maecenas quis dolor non mauris lobortis posuere. Nulla neque augue, gravida vel imperdiet id, sagittis non ante. Proin ultricies pretium nulla lacinia tempor.</p>';
 		
+		break;
+		
+	case "login":
+	
+		HTML += '<p class="b">Login</p>';
+	
+		HTML += "<p class=\"left\">Currently, only authorized class administration personnel are assigned accounts to this site (e.g. instructors and TA's). If you qualify as a member of this set, contact your course instructor and/or site administration.</p>";
+		
+		HTML += '<form action="" method="post">';
+		
+		HTML += '<div class="textFieldWrapper">';
+		HTML += '<input type="text" name="username" class="textField" style="color:#AAAAAA" value="Username" onfocus="freshen(this)" />';
+		HTML += '</div>';
+		
+		HTML += '<div class="textFieldWrapper" id="pfield">';
+		HTML += '<input type="text" name="password" class="textField" style="color:#AAAAAA" value="Password" onfocus="freshen(this)" />';
+		HTML += '</div>';
+		
+		HTML += '<input type="submit" value="Login" />';
+		
+		HTML += '</form><br/>';
+	
 		break;
 	}
 	

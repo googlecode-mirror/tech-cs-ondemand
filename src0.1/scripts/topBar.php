@@ -5,7 +5,7 @@
 		</td>
 		
 		<td class="right vat" style="width:450px;height:50px;">
-			<a href="#">Login</a>
+			<a href="" onclick="popUp('login');return false;">Login</a>
 		</td>
 	</tr>
 	<tr>
