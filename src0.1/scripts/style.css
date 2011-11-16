@@ -128,9 +128,16 @@ a.post:hover
 	text-align:center;
 	display:none;
 	
-	-moz-box-shadow:5px 5px 10px #555555; /* Firefox 3.6 and earlier */
-	-webkit-box-shadow:5px 5px 10px #555555; /* Safari */
-	box-shadow:5px 5px 10px #555555;
+	-moz-box-shadow:0px 0px 10px 5px #555555; /* Firefox 3.6 and earlier */
+	-webkit-box-shadow:0px 0px 10px 5px #555555; /* Safari */
+	box-shadow:0px 0px 10px 5px #555555;
+}
+
+.video
+{
+	display:block;
+	width:640px;
+	height:360px;
 }
 
 /* HEADERS */
@@ -186,13 +193,6 @@ h5 /* generic header */
 	font-size:16px;
 	font-weight:bold;
 }
-
-/* MESSING AROUND */
-video
-{
-	background-color:rgb(0,0,0);
-}
-
 
 /* MICRO ATTRIBUTES */
 .left {text-align:left;}
