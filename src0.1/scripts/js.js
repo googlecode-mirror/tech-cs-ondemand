@@ -160,15 +160,27 @@ function popUp(content)
 			var username = content.substr(8);
 			
 			// ajax call
-			var classId = 'CS 1332'; // will require multiple DN Q's
+			var classId = 'CS 1332'; // may require multiple DB queries
 			var name = 'Joseph Gee Kim';
 			var email = 'jkim498@gatech.edu';
-			var admin = true;
-			var info = Math.floor(Math.random() * 2) == 0 ? true : false;
+			var admin = Math.floor(Math.random() * 2) == 0 ? true : false;
+			var info = 'Hello! My name is Joseph Jihoon Kim, and I am currently a TA for <b>CS 1332 -- Data Structures and Algorithms</b>!<br/><br/>I am also a lover of music. I play the piano and bass and am a member of the Georgia Tech Symphony Orchestra!<br/><br/>I appreciate music theory and love composing/recording all genres of music!';
 			var picture = 'TApics/42.jpg'; // relative URL
 			
 			HTML += '<p class="b left">View profile: ' + username + '</p>';
-			HTML += 
+			
+			HTML += '<table border="0" cellpadding="0" cellspacing="0" width="400">';
+				
+			HTML += '<tr>';
+			HTML += 	'<td width="100" class="vat">';
+			HTML += 	'<img src="' + picture + '" alt="TA Pic" class="tapic" />';
+			HTML += 	classId + ' ' + (admin ? 'Admin' : 'TA');
+			HTML += 	'</td>';
+			HTML += 	'<td width="20"></td>';
+			HTML += 	'<td width="290" class="vat left"><h2>' + name + '</h2><b>' + email + '</b><hr/><p>' + info + '</p><hr/></td>';
+			HTML += '</tr>';
+				
+			HTML += '</table><br/>';
 		
 		}
 		// EDIT profile

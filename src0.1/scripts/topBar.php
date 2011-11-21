@@ -10,7 +10,8 @@
 			&nbsp;|&nbsp;
 			<a href="" onclick="popUp('_profile:username');return false;">Profile</a>
 			&nbsp;|&nbsp;
-			<a href="">Logout</a>
+			<a href="" onclick="popUp('login');return false;">Login</a>
+			<!--a href="">Logout</a-->
 		</td>
 	</tr>
 	<tr>
