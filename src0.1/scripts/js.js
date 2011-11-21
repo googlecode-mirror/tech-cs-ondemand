@@ -123,7 +123,7 @@ function popUp(content)
 	
 		HTML += '<p class="b">Contact</p>';
 		
-		HTML += '<p class="left">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sollicitudin felis ac nibh blandit imperdiet. Donec consequat tellus eu tortor molestie vel fermentum metus iaculis. Quisque ullamcorper metus sit amet sapien consectetur eu consequat ante consectetur. Nulla facilisi. Aenean nisi turpis, accumsan sit amet pellentesque id, vestibulum ac nisi. Maecenas quis dolor non mauris lobortis posuere. Nulla neque augue, gravida vel imperdiet id, sagittis non ante. Proin ultricies pretium nulla lacinia tempor.</p>';
+		HTML += '<p class="left">This site is still a work in progress. Please leave contact with any errors, suggestions, comments, or any other feedback. Thank you!</p>';
 		
 		break;
 		
