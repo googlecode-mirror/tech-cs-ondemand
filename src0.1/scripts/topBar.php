@@ -5,7 +5,12 @@
 		</td>
 		
 		<td class="right vat" style="width:450px;height:50px;">
-			<a href="" onclick="popUp('login');return false;">Login</a>
+			<!--a href="" onclick="popUp('login');return false;">Login</a-->
+			<a href="" onclick="popUp('profile:username');return false;">Username</a>
+			&nbsp;|&nbsp;
+			<a href="" onclick="popUp('_profile:username');return false;">Profile</a>
+			&nbsp;|&nbsp;
+			<a href="">Logout</a>
 		</td>
 	</tr>
 	<tr>

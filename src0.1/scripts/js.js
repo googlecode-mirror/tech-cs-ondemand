@@ -147,6 +147,39 @@ function popUp(content)
 		HTML += '</form><br/>';
 	
 		break;
+		
+	// view/edit profile
+	default:
+		
+		// clear header
+		HTML = "";
+		
+		// VIEW profile
+		if (content.substr(0,7) == 'profile')
+		{
+			var username = content.substr(8);
+			
+			// ajax call
+			var classId = 'CS 1332'; // will require multiple DN Q's
+			var name = 'Joseph Gee Kim';
+			var email = 'jkim498@gatech.edu';
+			var admin = true;
+			var info = Math.floor(Math.random() * 2) == 0 ? true : false;
+			var picture = 'TApics/42.jpg'; // relative URL
+			
+			HTML += '<p class="b left">View profile: ' + username + '</p>';
+			HTML += 
+		
+		}
+		// EDIT profile
+		else if (content.substr(0,8) == '_profile')
+		{
+			var username = content.substr(9);
+			
+			// ajax call
+		}
+	
+		break;
 	}
 	
 	// footer
