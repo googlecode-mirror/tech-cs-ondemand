@@ -115,9 +115,10 @@ function popUp(content)
 	
 		HTML += '<p class="b">About</p>';
 		
-		HTML += '<p class="left">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sollicitudin felis ac nibh blandit imperdiet. Donec consequat tellus eu tortor molestie vel fermentum metus iaculis. Quisque ullamcorper metus sit amet sapien consectetur eu consequat ante consectetur. Nulla facilisi. Aenean nisi turpis, accumsan sit amet pellentesque id, vestibulum ac nisi. Maecenas quis dolor non mauris lobortis posuere. Nulla neque augue, gravida vel imperdiet id, sagittis non ante. Proin ultricies pretium nulla lacinia tempor.</p>';
+		HTML += '<p class="left">Best viewed with Google Chrome</p>';
 		
 		break;
+		
 	case "contact":
 	
 		HTML += '<p class="b">Contact</p>';
@@ -158,14 +159,7 @@ function popUp(content)
 		if (content.substr(0,7) == 'profile')
 		{
 			var username = content.substr(8);
-			
-			// ajax call
-			var classId = 'CS 1332'; // may require multiple DB queries
-			var name = 'Joseph Gee Kim';
-			var email = 'jkim498@gatech.edu';
-			var admin = Math.floor(Math.random() * 2) == 0 ? true : false;
-			var info = 'Hello! My name is Joseph Jihoon Kim, and I am currently a TA for <b>CS 1332 -- Data Structures and Algorithms</b>!<br/><br/>I am also a lover of music. I play the piano and bass and am a member of the Georgia Tech Symphony Orchestra!<br/><br/>I appreciate music theory and love composing/recording all genres of music!';
-			var picture = 'TApics/42.jpg'; // relative URL
+			var query = profileAJAXquery(username);
 			
 			HTML += '<p class="b left">View profile: ' + username + '</p>';
 			
@@ -173,11 +167,11 @@ function popUp(content)
 				
 			HTML += '<tr>';
 			HTML += 	'<td width="100" class="vat">';
-			HTML += 	'<img src="' + picture + '" alt="TA Pic" class="tapic" />';
-			HTML += 	classId + ' ' + (admin ? 'Admin' : 'TA');
+			HTML += 	'<img src="' + query["picture"] + '" alt="TA Pic" class="tapic" />';
+			HTML += 	query["classId"] + ' ' + (query["admin"] ? 'Admin' : 'TA');
 			HTML += 	'</td>';
 			HTML += 	'<td width="20"></td>';
-			HTML += 	'<td width="290" class="vat left"><h2>' + name + '</h2><b>' + email + '</b><hr/><p>' + info + '</p><hr/></td>';
+			HTML += 	'<td width="290" class="vat left"><h2>' + query["name"] + '</h2><b>' + query["email"] + '</b><hr/><p>' + query["info"] + '</p><hr/></td>';
 			HTML += '</tr>';
 				
 			HTML += '</table><br/>';
@@ -187,8 +181,50 @@ function popUp(content)
 		else if (content.substr(0,8) == '_profile')
 		{
 			var username = content.substr(9);
+			var query = profileAJAXquery(username);
 			
-			// ajax call
+			HTML += '<p class="b left">Edit profile: ' + username + '</p>';
+			
+			HTML += '<form action="" method="post" enctype="multipart/form-data">';
+			
+			// table: 1 row 3 cells
+			HTML += '<table border="0" cellpadding="0" cellspacing="0" width="400">';
+				
+			HTML += '<tr>';
+			
+			// cell 1: pic
+			HTML += 	'<td width="100" class="vat">';
+			HTML += 	'<img src="' + query["picture"] + '" alt="TA Pic" class="tapic" />';
+			HTML += 	query["classId"] + ' ' + (query["admin"] ? 'Admin' : 'TA');
+			HTML += 	'</td>';
+			
+			// cell 2: spacer
+			HTML += 	'<td width="20"></td>';
+			
+			// cell 3: form content
+			HTML += 	'<td width="290" class="vat left">';
+			// inner table: 3 rows 3 cells (per each form entry)
+			HTML += 	'<table border="0" cellpadding="0" cellspacing="0" width="290">';
+			// row 1: name field
+			HTML += 	'<tr><td width="40" class="vam right b">Name&nbsp;&nbsp;</td>';
+			HTML += 	'<td width="250"><input type="text" name="name" value="'+ query["name"] +'" style="width:100%" /></td></tr>';
+			// row 2: email field
+			HTML += 	'<tr><td width="40" class="vam right b">Email&nbsp;&nbsp;</td>';
+			HTML += 	'<td width="250"><input type="text" name="email" value="' + query["email"] + '" style="width:100%" /></td></tr>';
+			// row 3: info/bio field
+			HTML += 	'<tr><td width="40" class="vat right b">Bio&nbsp;&nbsp;</td>';
+			HTML += 	'<td width="250"><textarea name="info" rows="5" id="bioTextField" style="width:100%" maxlength="255" oninput="updateCharsLeft();">' + query["info"] + '</textarea><br/>';
+			HTML += '255 characters max (<div id="charsLeft" style="display:inline"></div> left)';
+			HTML += '<script type="text/javascript">updateCharsLeft();</script>';
+			HTML += '</td>';
+			HTML += 	'</tr></table>';
+			
+			HTML += '<br/><b>Update profile picture</b><br/><input type="file" name="tapic" /><br/>Image must have .jpg extension, square dimensions (100px by 100px), and be < 50 KB<br/><br/>';
+			HTML += '<input type="submit" value="Save changes" />';
+			HTML += '</td></tr>';
+				
+			HTML += '</table></form><br/>';
+			
 		}
 	
 		break;
@@ -201,39 +237,58 @@ function popUp(content)
 	
 	$("#popUpBG").fadeTo("fast",0.5);
 	$("#popUp").fadeIn("fast");
+}
 
-	/* OLD-FASHIONED POP-UP
-	if (!window.focus)
-		return true;
-	
-	var href;
-	
-	if (typeof(mylink) == 'string')
-	   href = mylink;
-	else
-	   href = mylink.href;
-	   
-	pWidth = 400;
-	pHeight = 300;
-	
-	wLeft = (screen.width - pWidth) / 2;
-	wTop = (screen.height - pHeight) / 2;
-	
-	window.open(href, windowname,
-		'width='+pWidth+','+
-		'height='+pHeight+','+
-		'left='+wLeft+','+
-		'top='+wTop+','+
-		'scrollbars=no'
-	);
-	return false;
-	*/
+/**
+ * ESC key listener for closing popup dialog
+ */
+function _closePopUp(event)
+{
+	var popUp = $("#popUp");
+	if (popUp.css("display") != "none" && event.keyCode == 27)
+		closePopUp();
 }
 
 function closePopUp()
 {
 	$("#popUp").fadeOut("fast");
 	$("#popUpBG").fadeOut("fast");
+}
+
+// set key listener
+document.onkeydown = _closePopUp;
+
+/**
+ * AJAX query to the server looking up information
+ * to be displayed when opening a profile
+ *
+ * @param username the unique string username of a user
+ * @return associative array containing data with the following keys:
+ *	classId : String (eg: "CS 1332")
+ *	name : String
+ *	email : String
+ *	admin : boolean
+ *	info : String
+ *	pic : String (relative URL)
+ */
+function profileAJAXquery(username)
+{
+	var result = new Array();
+
+	result["classId"] = 'CS 1332'; // may require multiple DB queries
+	result["name"] = 'Joseph Gee Kim';
+	result["email"] = 'jkim498@gatech.edu';
+	result["admin"] = Math.floor(Math.random() * 2) == 0 ? true : false;
+	result["info"] = 'This bio text field should filter out HTML entities and trim all whitespace down to one space to enforce a linear max character limit in order to ensure the dialog box fits in a minimal resolution.';
+	result["picture"] = 'TApics/42.jpg'; // relative URL
+	
+	return result;
+}
+
+function updateCharsLeft()
+{
+	var textField = document.getElementById("bioTextField");
+	$("#charsLeft").html(255 - textField.value.length);
 }
 
 WebFontConfig = {
