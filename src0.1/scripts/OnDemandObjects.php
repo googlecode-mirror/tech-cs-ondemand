@@ -76,7 +76,6 @@ class OdTA {
   public $classId;
   public $name;
   public $email;
-  public $username;		// for login/lookup purposes
   public $password;		// md5 hashed
   public $active;
   public $admin;

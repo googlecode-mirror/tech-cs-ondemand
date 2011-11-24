@@ -89,7 +89,7 @@ function setCookie(key, value)
 
 function freshen(field)
 {
-	if (field.value == "Username" || field.value == "Password")
+	if (field.value == "E-mail" || field.value == "Password")
 	{
 		if (field.value == "Password")
 		{
@@ -136,7 +136,7 @@ function popUp(content)
 		HTML += '<form action="" method="post">';
 		
 		HTML += '<div class="textFieldWrapper">';
-		HTML += '<input type="text" name="username" class="textField" style="color:#AAAAAA" value="Username" onfocus="freshen(this)" />';
+		HTML += '<input type="text" name="email" class="textField" style="color:#AAAAAA" value="E-mail" onfocus="freshen(this)" />';
 		HTML += '</div>';
 		
 		HTML += '<div class="textFieldWrapper" id="pfield">';
@@ -158,10 +158,10 @@ function popUp(content)
 		// VIEW profile
 		if (content.substr(0,7) == 'profile')
 		{
-			var username = content.substr(8);
-			var query = profileAJAXquery(username);
+			var ID = content.substr(8);
+			var query = profileAJAXquery(ID);
 			
-			HTML += '<p class="b left">View profile: ' + username + '</p>';
+			HTML += '<p class="b left">View profile</p>';
 			
 			HTML += '<table border="0" cellpadding="0" cellspacing="0" width="400">';
 				
@@ -180,10 +180,10 @@ function popUp(content)
 		// EDIT profile
 		else if (content.substr(0,8) == '_profile')
 		{
-			var username = content.substr(9);
-			var query = profileAJAXquery(username);
+			var ID = content.substr(9);
+			var query = profileAJAXquery(ID);
 			
-			HTML += '<p class="b left">Edit profile: ' + username + '</p>';
+			HTML += '<p class="left"><b>Edit profile:</b> ' + query["email"] + '</p>';
 			
 			HTML += '<form action="" method="post" enctype="multipart/form-data">';
 			
@@ -203,17 +203,14 @@ function popUp(content)
 			
 			// cell 3: form content
 			HTML += 	'<td width="290" class="vat left">';
-			// inner table: 3 rows 3 cells (per each form entry)
+			// inner table: 2 rows 2 cells (per each form entry)
 			HTML += 	'<table border="0" cellpadding="0" cellspacing="0" width="290">';
 			// row 1: name field
 			HTML += 	'<tr><td width="40" class="vam right b">Name&nbsp;&nbsp;</td>';
 			HTML += 	'<td width="250"><input type="text" name="name" value="'+ query["name"] +'" style="width:100%" /></td></tr>';
-			// row 2: email field
-			HTML += 	'<tr><td width="40" class="vam right b">Email&nbsp;&nbsp;</td>';
-			HTML += 	'<td width="250"><input type="text" name="email" value="' + query["email"] + '" style="width:100%" /></td></tr>';
-			// row 3: info/bio field
+			// row 2: info/bio field
 			HTML += 	'<tr><td width="40" class="vat right b">Bio&nbsp;&nbsp;</td>';
-			HTML += 	'<td width="250"><textarea name="info" rows="5" id="bioTextField" style="width:100%" maxlength="255" oninput="updateCharsLeft();">' + query["info"] + '</textarea><br/>';
+			HTML += 	'<td width="250"><textarea name="info" rows="6" id="bioTextField" style="width:100%" maxlength="255" oninput="updateCharsLeft();">' + query["info"] + '</textarea><br/>';
 			HTML += '255 characters max (<div id="charsLeft" style="display:inline"></div> left)';
 			HTML += '<script type="text/javascript">updateCharsLeft();</script>';
 			HTML += '</td>';
@@ -262,7 +259,7 @@ document.onkeydown = _closePopUp;
  * AJAX query to the server looking up information
  * to be displayed when opening a profile
  *
- * @param username the unique string username of a user
+ * @param ID the unique user ID used for DB query
  * @return associative array containing data with the following keys:
  *	classId : String (eg: "CS 1332")
  *	name : String
@@ -271,7 +268,7 @@ document.onkeydown = _closePopUp;
  *	info : String
  *	pic : String (relative URL)
  */
-function profileAJAXquery(username)
+function profileAJAXquery(ID)
 {
 	var result = new Array();
 
