@@ -11,8 +11,8 @@ class OdClass {
 
   function __construct($id, $subject, $number, $title, $description){
                 $this->id = $id;
-				$this->subject = $subject;
-				$this->number = $number;
+		$this->subject = $subject;
+		$this->number = $number;
                 $this->title = $title;
                 $this->description = $description;
   }
@@ -25,39 +25,25 @@ class OdClass {
     // TODO
   }
 
+  function getAllTags() {
+	return get_all_tags_db($this->number);
+  }
+
+  function getAllPostsForTag($tag) {
+	return get_all_posts_db($this->number, $tag);
+  }
+
   /**
    * @return a 2D array of posts where each subarray corresponds to a topic
    *         ordering within each subarray (topic) is yet to be determined
    *         suggested orderings: alphabetical, difficulty, temporal
    */
   function getAllPosts() {
-
-  	$_uid = 1; // temporary unique ID for testing
-	
-	$result = array();
-	
-	$topic = array();
-	for ($i=0; $i < 5; $i++)
-	{
-		$post = new OdPost($_uid++, "AVL Trees: Adding", "A quick overview of the steps involved in adding an element to an AVL tree. <i>See <a href=\"\">BST: Adding</a> for more basics</i>", 5, "AVL Trees");
-		$topic[] = $post;
-	}
-	$result[] = $topic;
-  
-	$topic = array();
-	for ($i=0; $i < 2; $i++)
-	{
-		$post = new OdPost($_uid++, "Merge sort", "This post contains a video of a sample merge sort iteration", 5, "Sorting");
-		$topic[] = $post;
-	}
-	$result[] = $topic;
-	
-	$topic = array();
-	$post = new OdPost($_uid++, "Hash functions", "Principles of a good hash function", 5, "Hash Tables");
-	$topic[] = $post;
-	$result[] = $topic;
-	
-	return $result;
+	$rtn = array();
+	$tags = $this->getAllTags();
+	for ($i=0;$i<count($tags);$i++)
+		$rtn[] = $this->getAllPostsForTag($tags);
+	return $rtn;
   }
 
   function getAllTAs() {
@@ -73,7 +59,7 @@ class OdClass {
 class OdTA {
 
   private $id;
-  public $classId;
+  public $classId;		// array()
   public $name;
   public $email;
   public $password;		// md5 hashed
@@ -84,7 +70,7 @@ class OdTA {
 
   function __construct($id, $classId, $name, $email, $password, $active, $admin, $info, $picture){
     $this->id	= $id;
-    $this->classId	= $classId;
+    $this->classId	= $classId;	// array()
     $this->name	= $name;
     $this->email	= $email;
     $this->password = $password;
@@ -100,6 +86,13 @@ class OdTA {
 
   function saveToDb() {
     // TODO
+  }
+
+  function addClass($newClassId) {
+	$this->classId[] = $newClassId;
+	$con = connectToDB();
+	update_ta_add_class_db($this->id, $newClassId);
+	breakCon($con);
   }
 
   function getClass() {
@@ -152,19 +145,19 @@ class OdPost {
   }
 
   function getTA() {
-    // TODO
+    return get_ta_byId_db($this->taid);
   }
 
   function saveToDb() {
     // TODO
   }
 
-  function getAllComments() {
-    // TODO
+  function getAllComments($classNumber) {
+    return get_all_comments_db($classNumber, $this->id, $this->taid);
   }
 
-  function getAllMedia() {
-    // TODO
+  function getAllMedia($classNumber) {
+    return get_all_media_db($class, $this->id, $this->taid);
   }
 }
 
@@ -223,11 +216,11 @@ class OdMedia {
   }
 
   function getTA() {
-    // TODO
+    return get_ta_byId_db($this->taid);
   }
 
-  function getPost() {
-    // TODO
+  function getPost($classNumber) {
+    return get_post_byId_db($this->postid);
   }
 
   function saveToDb() {
@@ -297,11 +290,11 @@ class OdComment {
   }
 
   function getTA() {
-    // TODO
+    return get_ta_byId_db($this->taid);
   }
 
-  function getPost() {
-    // TODO
+  function getPost($classNumber) {
+    return get_post_byId_db($this->postid);
   }
 
   function saveToDb() {

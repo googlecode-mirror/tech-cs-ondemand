@@ -1,21 +1,50 @@
 <?php
 
-  include_once "OnDemandObjects.php";
+include_once "OnDemandObjects.php";
+include_once "DatabaseController.php";
+include_once "DatabaseController_User.php";
+include_once "DatabaseController_Post.php";
+include_once "DatabaseController_Media.php";
+include_once "DatabaseController_Comment.php";
+include_once "DatabaseController_OdClass.php";
+
+
+
+function getAllSubjects() {
+	return get_all_subjects_db();
+}
+
+function getAllClassesBySubject($subject) {
+	return get_all_classes_db($subject);
+}
+
+function getClassById($id) {
+	return get_class_byId_db($id);
+}
+
+function getPostById($id, $classNumber) {
+	return get_post_byId_db($id, $classNumber);
+}
+
 
   // A lot of these functions return dummy data for testing
   
   function getOdClassById($id) {
     if ($id <= 0)
       return 0;
-    // TODO
     return new OdClass($id, 'CS', 1332, 'Data Structures and Algorithms', 'This is an example class with embedded <b>html</b>.');
   }
 
+  // DONE
+  function createOdTa($ta) {
+  	return create_ta_db($ta);
+  }
+
+  // DONE
   function getOdTaById($id) {
     if ($id <= 0)
       return 0;
-    // TODO
-    return new OdTA($id, 1, 'Example TA', 'ta@ta.com', md5(5), 1, 0, 'This is an example "About Me" with embedded <i>html</i>.', 'sampleImage.jpg');
+    return get_ta_by_id_db($id);
   }
 
   function getOdPostById($id) {

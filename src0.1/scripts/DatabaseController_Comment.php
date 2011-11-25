@@ -62,15 +62,15 @@ function get_comment_byId_db($id, $class) {
 	return $rtn;
 }
 
-function get_all_comments_db($postId, $taId, $rating, $ratingComp, $class) {
+function get_all_comments_db($class, $postid, $taid, $rating, $ratingComp) {
 	$needAnd = 0;
 	$sql = "SELECT * FROM `techcsondemand`.`CommentCollection$class`
 			WHERE ";
-	if($postId){
-		$sql .= "`postid`=$postId";
+	if($postid){
+		$sql .= "`postid`=$postid";
 		$needAnd = 1;
 	}
-	if($taId){
+	if($taid){
 		$sql .= ($needAnd ? " AND " : " ") . "`taid`=$taid";
 		$needAnd = 1;
 	}
@@ -78,17 +78,17 @@ function get_all_comments_db($postId, $taId, $rating, $ratingComp, $class) {
 		$ratingComp = !$ratingComp ? "=" : $ratingComp < 0 ? "<" : ">";
 		$sql .= ($needAnd ? " AND " : " ") . "`taid` $ratingComp $rating";
 	}
-	return get_all_tas_sql_db($sql . ";");
+	return get_all_comments_sql_db($sql . ";");
 }
 
-function get_all_users_sql_db($sql){
+function get_all_comments_sql_db($sql){
 	$con = connectToDB();
 	$arr = array();
 	if($con){
 		$result = desql($sql);
 		$num_results = mysql_num_rows($result);
 		for($i=0;$i<$num_results;$i++){
-			$arr[] = parse_ta_row_db(mysql_fetch_array($result));
+			$arr[] = parse_comment_row_db(mysql_fetch_array($result));
 		}
 		breakCon($con);
 	}

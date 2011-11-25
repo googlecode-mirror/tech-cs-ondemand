@@ -1,6 +1,6 @@
 <?php
 
-include_once "OnDemandObjects.ini.php";
+include_once "OnDemandObjects.php";
 include_once "Connection.ini.php";
 
 //************************************************************************
@@ -11,48 +11,47 @@ include_once "Connection.ini.php";
 //========================================================================
 // Create
 //========================================================================
-function create_user_db($user){
-
-	`taid`		INT UNSIGNED NOT NULL AUTO_INCREMENT,
-	`classid`	INT UNSIGNED NOT NULL,
-	`name`		VARCHAR(100) NOT NULL,
-	`email`		VARCHAR(100) NOT NULL,
-	`password`	VARCHAR(100) NOT NULL,
-	`active`	INT(1)   DEFAULT 1 COMMENT 'default true || if the TA is taking a semester off',
-	`admin`		INT(1)   DEFAULT 0 COMMENT 'default false || To specify a professor. Allowed to edit other users',
-	`info`		VARCHAR(255) COMMENT 'general TA description',
-	`picture`	VARCHAR(100),
-
+	// DONE ... TESTED
+function create_ta_db($ta){
 	$con = connectToDB();
 	$last_id = 0;
-	$classId = mysql_real_escape_string($user->classId);
-	$name = mysql_real_escape_string($user->name);
-	$email = mysql_real_escape_string($user->email);
-	$password = md5($user->password);
-	// active
-	// admin
-	$info = mysql_real_escape_string($user->info);
-	$picture = mysql_real_escape_string($user->picture);
+	$classId = $ta->classId;
+	$name = mysql_real_escape_string($ta->name);
+	$email = mysql_real_escape_string($ta->email);
+	$password = md5($ta->password);
+	$active = 1;
+	$admin = 0;
+	$info = mysql_real_escape_string($ta->info);
+	$picture = mysql_real_escape_string($ta->picture);
+	$rtn = 0;
 	if($con){
-		$sql = "INSERT INTO `techcsondemand`.`TaCollection` (`classid`, `name`, `email`, `password`, `info`, `picture`) " .
- 				"VALUES ('$classId', '$name', '$email', '$password', '$info', '$picture');";
-		if(desql($sql))
-		  $last_id = mysql_insert_id();
+		$sql = "INSERT INTO `techcsondemand`.`TaCollection` (`name`, `email`, `password`, `info`, `picture`) " .
+ 				"VALUES ('$name', '$email', '$password', '$info', '$picture');";
+		if(desql($sql)) {
+			  $last_id = mysql_insert_id();
+			  if ($classId) {
+				for($i=0;$i<count($classId);$i++)
+					update_ta_add_class_db($last_id, $classId[$i]);
+				$rtn = new OdTA($last_id, $classId, $name, $email, $password, $active, $admin, $info, $picture);
+			  } else
+				$rtn = new OdTA($last_id, array(), $name, $email, $password, $active, $admin, $info, $picture);			  
+		}
 	}
 	if ($con){
 		breakCon($con);
 	}
-	return $last_id;
+	return $rtn;
 }
 
 //========================================================================
 // Edit
 //========================================================================
-function update_user_pass_db($uid, $pass) {
+	// DONE
+function update_ta_pass_db($uid, $pass) {
 	$password = md5($pass);
 	$con = connectToDB();
 	if($con){
-		$sql = "UPDATE user SET password='$password' WHERE userid=$uid;";
+		$sql = "UPDATE `techcsondemand`.`TaCollection` SET `password`='$pass' WHERE `taid`=$uid;";
 		$res = desql($sql);
 		breakCon($con);
 		return $res;
@@ -60,7 +59,16 @@ function update_user_pass_db($uid, $pass) {
 	return 0;
 }
 
-function update_user_info_db($uid, $name, $email, $cell, $cell_carrier, $ec_name, $ec_cell) {
+	// DONE ... TESTED
+// NOTE: !! expects connection !!
+function update_ta_add_class_db($taid, $classId) {
+	$sql = "INSERT INTO `techcsondemand`.`TaClasses` (`taid`, `classid`) " .
+			"VALUES ('$taid', '$classId');";
+	$res = desql($sql);
+	return $res;
+}
+
+function update_ta_info_db($uid, $name, $email, $cell, $cell_carrier, $ec_name, $ec_cell) {
 	$con = connectToDB();
 	if($con){
 		$sql = "UPDATE user SET username='$name', email='$email', emgcntname='$ec_name', emgcntnum='$ec_cell' WHERE userid=$uid;";
@@ -76,7 +84,7 @@ function update_user_info_db($uid, $name, $email, $cell, $cell_carrier, $ec_name
 	return 0;
 }
 
-function set_user_status_db($uid, $status){
+function set_ta_status_db($uid, $status){
 	$con = connectToDB();
 	if($con){
 		$sql = "UPDATE user SET userstatus='$status' 
@@ -88,7 +96,7 @@ function set_user_status_db($uid, $status){
 	return 0;
 }
 
-function set_user_type_db($uid, $type){
+function set_ta_type_db($uid, $type){
 	$con = connectToDB();
 	if($con){
 		$sql = "UPDATE user SET usertype='$type' 
@@ -103,43 +111,30 @@ function set_user_type_db($uid, $type){
 //========================================================================
 // Get
 //========================================================================
-function get_user_by_id_db($user_id){
+
+	// DONE ... TESTED
+function get_ta_by_id_db($ta_id, $con=0){
+	$res = $con;
 	$con = connectToDB();
+	$ta = 0;
 	if($con){
-		$sql = "SELECT * FROM user, phone 
-				WHERE phone.userid=$user_id 
-				AND phone.userid=user.userid";
+		$sql = "SELECT * FROM `techcsondemand`.`TaCollection` 
+				WHERE `taid`=$ta_id;";
 		$result = desql($sql);
-		if($result){
-			if(mysql_num_rows($result) == 1)
-			$arr = parse_user_row_db(mysql_fetch_array($result));
-		}
-		breakCon($con);
+		if($result && mysql_num_rows($result) == 1)
+				$ta = parse_ta_row_db(mysql_fetch_array($result));
+		if(!$res)
+			breakCon($con);
 	}
-	return $arr;
+	return $ta;
 }
 
-function get_member_by_id_db($user_id){
+	// DONE
+function get_login_by_email_db($ta_email){
 	$con = connectToDB();
 	if($con){
-		$sql = "SELECT * FROM user, phone 
-				WHERE phone.userid=$user_id 
-				AND phone.userid=user.userid";
-		$result = desql($sql);
-		if($result){
-			if(mysql_num_rows($result) == 1)
-			$arr = parse_member_row_db(mysql_fetch_array($result));
-		}
-		breakCon($con);
-	}
-	return $arr;
-}
-
-function get_login_by_email_db($user_email){
-	$con = connectToDB();
-	if($con){
-		$sql = "SELECT password, userid FROM user 
-				WHERE email='$user_email';";
+		$sql = "SELECT password, taid FROM `techcsondemand`.`TaCollection`
+				WHERE email='$ta_email';";
 		$result = desql($sql);
 		if(mysql_num_rows($result) == 1){
 			$row = mysql_fetch_array($result);
@@ -155,36 +150,22 @@ function get_login_by_email_db($user_email){
 //========================================================================
 // Get All
 //========================================================================
-function get_all_users_db($is_paid, $paid, $is_type, $type, $email_like, $email, $is_GT, $GT, $active){
-	$active = ($active ? "!" : "") . "= 'Inactive'";
-	$sql = "SELECT * FROM user, phone 
-			WHERE user.userid=phone.userid
-			AND user.userstatus $active ";
-	if($is_paid){
-		$paid = ($paid ? "" : "!") . "= 'Paid'";
-		$sql .= "AND user.userstatus $paid ";
-	}
-	if($is_type){
-		$sql .= "AND user.usertype = '$type' ";
-	}
-	if($email_like){
-		$sql .= "AND user.email LIKE '%$email%' ";
-	}
-	if($is_GT){
-		$GT = ($GT ? "!" : "") . "= 'User'";
-		$sql .= "AND user.userstatus $GT ";
-	}
-	return get_all_users_sql_db($sql);
-}
-
-function get_all_users_sql_db($sql){
+	// DONE ... TESTED
+function get_all_tas_db($classId=0){
 	$con = connectToDB();
 	$arr = array();
 	if($con){
-		$result = desql($sql);
-		$num_results = mysql_num_rows($result);
-		for($i=0;$i<$num_results;$i++){
-			$arr[] = parse_user_row_db(mysql_fetch_array($result));
+		$sql = "SELECT * FROM ";
+		if ($classId) {
+			$sql .= "`techcsondemand`.`TaClasses` WHERE `classid`=$classId;";
+			$result = desql($sql);
+			while ($row = mysql_fetch_array($result))
+				$arr[] = get_ta_by_id_db($row['taid'], $con);
+		} else {
+			$sql .= "`techcsondemand`.`TaCollection`;";
+			$result = desql($sql);
+			while ($row = mysql_fetch_array($result))
+				$arr[] = parse_ta_row_db($row);
 		}
 		breakCon($con);
 	}
@@ -194,49 +175,42 @@ function get_all_users_sql_db($sql){
 //========================================================================
 // Helpers
 //========================================================================
-function parse_user_row_db($row){
+	// DONE ... TESTED
+function parse_ta_row_db($row){
 	if(!$row)
-	return 0;
-	$id = $row["userid"];
-	$name = $row["username"];
+		return 0;
+	$id = $row["taid"];
+	$classid = array();
+	$name = $row["name"];
 	$password = $row["password"];
 	$email = $row["email"];
+	$active = $row["active"];
+	$admin = $row["admin"];
+	$info = $row["info"];
+	$picture = $row["picture"];
 
-	$cell_number = $row["phonenumber"];
-	$cell_carrier = $row["phonecarrier"];
+	$ta = new OdTA($id, $classid, $name, $email, $password, $active, $admin, $info, $picture);
 
-	$emg_contact_name = $row["emgcntname"];
-	$emg_contact_number = $row["emgcntnum"];
-
-	$status = $row["userstatus"];
-	$type = $row["usertype"];
-	$trips = "";
-	$events = "";
-
-	$arr = array("id"=>$id, "password"=>$password ,"name"=>$name, "email"=>$email,
-					 "cell_number"=>$cell_number, "cell_carrier"=>$cell_carrier,
-					 "emg_contact_name"=>$emg_contact_name, "emg_contact_number"=>$emg_contact_number,
-					 "status"=>$status, "type"=>$type,
-					 "trips_att"=>$trips, "events_att"=>$events);
-	return $arr;
+	$sql = "SELECT * FROM `techcsondemand`.`TaClasses`
+			WHERE `taid`=$id;";
+	$result = desql($sql);
+	return parse_ta_classes_db($result, $ta);
 }
 
-function parse_member_row_db($row){
-	if(!$row)
-	return 0;
-
-	$arr = parse_user_row_db($row);
-	$arr["paid"] = $row["paid"];
-	
-	return $arr;
+	// DONE ... TESTED
+function parse_ta_classes_db($classResults, $ta) {
+	while($row = mysql_fetch_array($classResults))
+		$ta->addClass($row['classid']);
+	return $ta;
 }
 
+	// DONE ... TESTED
 function unique_email_db($email){
 	$con = connectToDB();
 	if($con){
-		$sql = "SELECT * FROM user WHERE email='$email';";
+		$sql = "SELECT * FROM `techcsondemand`.`TaCollection` WHERE `email`='$email';";
 		$result = desql($sql);
-		$num_results = !mysql_num_rows($result);
+		$num_results = mysql_num_rows($result) ? 0 : 1;
 		breakCon($con);
 		return $num_results;
 	}

@@ -3,6 +3,8 @@
 
 <?php
 
+include_once "OnDemandServices.php";
+
 /**
  * Converts a color from HSB to RGB color space
  *

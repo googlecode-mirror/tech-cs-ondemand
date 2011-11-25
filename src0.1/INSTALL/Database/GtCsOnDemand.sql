@@ -13,21 +13,21 @@ CREATE DATABASE techcsondemand;
 -- types or tags are	VARCHAR(20)
 
 
-CREATE TABLE `ClassCollection` (
-  `classid` 	INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY ,
-  `title` 	VARCHAR( 255 ) NOT NULL ,
-  `description` MEDIUMTEXT NOT NULL ,
-  `alias` 	VARCHAR( 20 ) NOT NULL COMMENT 'how the link will display to the user GET variables',
-  `type` 	VARCHAR( 20 ) NOT NULL COMMENT 'I don''t know what this is...',
-  UNIQUE (`alias`)
-);
+CREATE TABLE IF NOT EXISTS `ClassCollection` (
+  `classid` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(100) NOT NULL,
+  `description` mediumtext,
+  `subject` varchar(20) NOT NULL,
+  `number` int(4) NOT NULL,
+  PRIMARY KEY (`classid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 
-CREATE TABLE `ClassTypes` (
-  `classid`	INT UNSIGNED NOT NULL ,
-  `category`	VARCHAR( 100 ) NOT NULL COMMENT 'Subject the class belongs to: {Computer Science, Mathematics, ... }',
-  PRIMARY KEY ( `classid` )
-);
+--CREATE TABLE `ClassTypes` (
+--  `classid`	INT UNSIGNED NOT NULL ,
+--  `category`	VARCHAR( 100 ) NOT NULL COMMENT 'Subject the class belongs to: {Computer Science, Mathematics, ... }',
+--  PRIMARY KEY ( `classid` )
+--);
 
 
 CREATE TABLE `techcsondemand`.`TaCollection`(

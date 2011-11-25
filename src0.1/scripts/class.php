@@ -6,6 +6,9 @@
 	require("scripts.php");
 	
 	$posts = $class->getAllPosts();
+	echo "<pre>*";
+	print_r($posts);
+	echo "*</pre>";
 	mt_srand($class->number); // seed used for header random color generation
 ?>
 

@@ -62,34 +62,35 @@ function get_media_byId_db($id, $class) {
 	return $rtn;
 }
 
-function get_all_media_db($postId, $taId, $rating, $ratingComp) {
+	// DONE ... TESTED
+function get_all_media_db($class, $postId, $taid, $rating, $ratingComp) {
 	$needAnd = 0;
-	$sql = "SELECT * FROM `techcsondemand`.`CommentCollection`
+	$sql = "SELECT * FROM `techcsondemand`.`MediaCollection$class`
 			WHERE ";
 	if($postId){
 		$sql .= "`postid`=$postId";
 		$needAnd = 1;
 	}
-	if($taId){
+	if($taid){
 		$sql .= ($needAnd ? " AND " : " ") . "`taid`=$taid";
 		$needAnd = 1;
 	}
 	if($rating){
 		$ratingComp = !$ratingComp ? "=" : $ratingComp < 0 ? "<" : ">";
-		$sql .= ($needAnd ? " AND " : " ") . "`taid` $ratingComp $rating";
+		$sql .= ($needAnd ? " AND " : " ") . " $ratingComp $rating";
 	}
-	return get_all_tas_sql_db($sql . ";");
+	return get_all_media_sql_db($sql . ";");
 }
 
+	// DONE ... TESTED
 function get_all_media_sql_db($sql){
 	$con = connectToDB();
 	$arr = array();
 	if($con){
 		$result = desql($sql);
 		$num_results = mysql_num_rows($result);
-		for($i=0;$i<$num_results;$i++){
-			$arr[] = parse_ta_row_db(mysql_fetch_array($result));
-		}
+		for($i=0;$i<$num_results;$i++)
+			$arr[] = parse_media_row_db(mysql_fetch_array($result));
 		breakCon($con);
 	}
 	return $arr;
