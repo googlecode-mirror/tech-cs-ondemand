@@ -18,6 +18,10 @@ function getAllClassesBySubject($subject) {
 	return get_all_classes_db($subject);
 }
 
+function getAllClasses() {
+	return get_subject_class_array_db();
+}
+
 function getClassById($id) {
 	return get_class_byId_db($id);
 }

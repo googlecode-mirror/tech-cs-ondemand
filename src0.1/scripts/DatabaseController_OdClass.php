@@ -106,7 +106,6 @@ function get_class_byNumber_db($number) {
 	if($con){
 		$sql = "SELECT * FROM `techcsondemand`.`ClassCollection`
 				WHERE `number`=$number;";
-		echo $sql;
 		$result = desql($sql);
 		if($result){
 			if(mysql_num_rows($result) == 1)
@@ -122,7 +121,7 @@ function get_all_classes_db($subject=0) {
 	$needAnd = 0;
 	$sql = "SELECT * FROM `techcsondemand`.`ClassCollection`";
 	if($subject)
-		$sql .= " WHERE `subject`=$subject";
+		$sql .= " WHERE `subject`='$subject'";
 	return get_all_classes_sql_db($sql . ";");
 }
 

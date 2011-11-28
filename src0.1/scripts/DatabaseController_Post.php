@@ -63,11 +63,9 @@ function get_post_byId_db($id, $class) {
 
 	// DONE
 function get_all_posts_db($class, $tag = 0) {
-	$needAnd = 0;
 	$sql = "SELECT * FROM `techcsondemand`.`PostCollection$class`";
 	if($tag){
 		$sql .= " WHERE `tag`='$tag'";
-		$needAnd = 1;
 	}
 	return get_all_posts_sql_db($sql . ";");
 }

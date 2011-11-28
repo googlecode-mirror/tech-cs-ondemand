@@ -6,9 +6,8 @@
 	require("scripts.php");
 	
 	$posts = $class->getAllPosts();
-	echo "<pre>*";
+	print_r($class);
 	print_r($posts);
-	echo "*</pre>";
 	mt_srand($class->number); // seed used for header random color generation
 ?>
 
@@ -102,6 +101,7 @@ $(document).ready(function()
 
 	for ($i=0; $i < $numTopics; $i++)
 	{
+		print_r($posts);
 		echo '<h3 id="topic_' . $i . '">' . $posts[$i][0]->topic . '</h3>';
 		echo '<div id="topicDiv_' . $i . '">';
 		foreach ($posts[$i] as $post)

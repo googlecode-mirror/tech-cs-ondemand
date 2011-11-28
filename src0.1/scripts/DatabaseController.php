@@ -35,6 +35,14 @@ function get_all_tags_db($class) {
 	return $rtn;
 }
 
+function get_subject_class_array_db() {
+	$subs = get_all_subjects_db();
+	$arr = array();
+	for($i=0;$i<count($subs);$i++)
+		$arr[$subs[$i]] = get_all_classes_db($subs[$i]);
+	return $arr;
+}
+
 //========================================================================
 // 			  Database Utilities
 //========================================================================

@@ -4,7 +4,7 @@
 	require("styles.php");
 	require("scripts.php");
 
-	$subjects = getAllOdClasses();
+	$subjects = getAllClasses();
 ?>
 <script type="text/javascript">
 

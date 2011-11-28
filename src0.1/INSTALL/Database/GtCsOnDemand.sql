@@ -2,16 +2,7 @@ DROP DATABASE techcsondemand;
 
 CREATE DATABASE techcsondemand;
 
---USE techcsondemand;
-
--- OnDemand Database Conventions
--- class desc		MEDIUMTEXT(3000)
--- TA/post desc		VARCHAR(255)
--- comment		VARCHAR(255)
--- filenames are	VARCHAR(100)
--- personal info is	VARCHAR(100)
--- types or tags are	VARCHAR(20)
-
+USE techcsondemand;
 
 CREATE TABLE IF NOT EXISTS `ClassCollection` (
   `classid` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -21,14 +12,6 @@ CREATE TABLE IF NOT EXISTS `ClassCollection` (
   `number` int(4) NOT NULL,
   PRIMARY KEY (`classid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
-
---CREATE TABLE `ClassTypes` (
---  `classid`	INT UNSIGNED NOT NULL ,
---  `category`	VARCHAR( 100 ) NOT NULL COMMENT 'Subject the class belongs to: {Computer Science, Mathematics, ... }',
---  PRIMARY KEY ( `classid` )
---);
-
 
 CREATE TABLE `techcsondemand`.`TaCollection`(
 	`taid`		INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -81,14 +64,8 @@ CREATE TABLE `techcsondemand`.`CommentCollection1332` (
 	INDEX(`postid`, `taid`)
 );
 
-/* techcsondemand */
--- INSERT
---USE techcsondemand;
-INSERT INTO `techcsondemand`.`ClassCollection` (`classid`, `title`, `description`, `alias`, `type`)
+INSERT INTO `techcsondemand`.`ClassCollection` (`classid`, `title`, `description`, `number`, `subject`)
 	VALUES (NULL, 'CS1332', 'Data Structures And Algorithms', '1332', 'Computer Science');
-
-INSERT INTO `techcsondemand`.`ClassTypes` (`classid`, `category`)
-	VALUES (1, 'Computer Science');
 
 INSERT INTO `techcsondemand`.`TaCollection` (`taid`, `classid`, `name`, `email`, `password`, `info`, `picture`)
 	VALUES (NULL, 1, 'New TA', 'TA@TA.com', 'password', 'Coming Soon...', NULL);
@@ -102,11 +79,3 @@ INSERT INTO `techcsondemand`.`MediaCollection1332` (`mediaid`, `postid`, `taid`,
 INSERT INTO `techcsondemand`.`CommentCollection1332` (`commentid`, `postid`, `taid`, `comment`, `created`)
 	VALUES (NULL, 1, 1, 'This is a sample comment', CURRENT_TIMESTAMP);
 
--- CLEAN TABLES
---USE techcsondemand;
-TRUNCATE TABLE `techcsondemand`.`ClassCollection`;
-TRUNCATE TABLE `techcsondemand`.`ClassTypes`;
-TRUNCATE TABLE `techcsondemand`.`TaCollection`;
-TRUNCATE TABLE `techcsondemand`.`PostCollection1332`;
-TRUNCATE TABLE `techcsondemand`.`MediaCollection1332`;
-TRUNCATE TABLE `techcsondemand`.`CommentCollection1332`;
