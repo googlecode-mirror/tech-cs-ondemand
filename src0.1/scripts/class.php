@@ -1,5 +1,5 @@
 <?php require("HTML_top1.php"); ?>
-<?php $class = getOdClassById($_GET["id"]); ?>
+<?php $class = getClassById($_GET["id"]); ?>
 <title><?php echo $class->subject . ' ' . $class->number; ?> &gt;&gt; ON DEMAND</title>
 <?php
 	require("styles.php");
