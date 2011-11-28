@@ -42,7 +42,7 @@ class OdClass {
 	$rtn = array();
 	$tags = $this->getAllTags();
 	for ($i=0;$i<count($tags);$i++)
-		$rtn[$tags[$i]] = $this->getAllPostsForTag($tags);
+		$rtn[$tags[$i]] = $this->getAllPostsForTag($tags[$i]);
 	return $rtn;
   }
 

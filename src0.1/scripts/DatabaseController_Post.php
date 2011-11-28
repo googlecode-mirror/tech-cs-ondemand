@@ -67,6 +67,7 @@ function get_all_posts_db($class, $tag = 0) {
 	if($tag){
 		$sql .= " WHERE `tag`='$tag'";
 	}
+	echo $sql;
 	return get_all_posts_sql_db($sql . ";");
 }
 
