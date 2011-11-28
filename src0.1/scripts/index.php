@@ -36,7 +36,7 @@ $(document).ready(function()
 
 <?php require("HTML_top2.php"); ?>
 
-<div class="cen"><img src="banner.jpg" alt="TECH ON DEMAND" /></div>
+<div class="cen"><img src="images/banner.jpg" alt="TECH ON DEMAND" /></div>
 <hr />
 
 <p class="gray">

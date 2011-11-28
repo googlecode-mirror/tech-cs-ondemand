@@ -1,9 +1,9 @@
-﻿<script type="text/javascript" src="jquery-1.6.4.min.js"></script>
-<script type="text/javascript" src="js.js"></script>
+﻿<script type="text/javascript" src="js/jquery-1.6.4.min.js"></script>
+<script type="text/javascript" src="js/js.js"></script>
 
 <?php
 
-include_once "OnDemandServices.php";
+include_once "scripts/OnDemandServices.php";
 
 /**
  * Converts a color from HSB to RGB color space
