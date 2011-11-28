@@ -9,7 +9,7 @@
 	require("scripts.php");
 ?>
 
-<script type="text/javascript" src="flowplayer-3.2.6.min.js"></script>
+<script type="text/javascript" src="js/flowplayer-3.2.6.min.js"></script>
 <script type="text/javascript">
 
 function validate(obj)
@@ -45,7 +45,7 @@ function validate(obj)
 
 <a href="<?php echo 'video/'.$post->getId() . '.flv'; ?>" id="player" class="video"></a>
 <script type="text/javascript">
-flowplayer("player", {src:"flowplayer-3.2.7.swf", wmode:"opaque"},
+flowplayer("player", {src:"flash/flowplayer-3.2.7.swf", wmode:"opaque"},
 {
 	onload:function()
 	{
