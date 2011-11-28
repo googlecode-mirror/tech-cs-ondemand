@@ -1,4 +1,5 @@
-﻿<table width="750" border="0" cellpadding="0" cellspacing="0">
+﻿
+<table width="750" border="0" cellpadding="0" cellspacing="0">
 	<tr>
 		<td rowspan="2" style="width:300px;">
 			<a href="index.php" class="banner_s"></a>
@@ -6,6 +7,7 @@
 		
 		<td class="right vat" style="width:450px;height:50px;">
 			<!--a href="" onclick="popUp('login');return false;">Login</a-->
+			<!--
 			<a href="" onclick="popUp('profile:ID');return false;">Joseph Gee Kim</a>
 			&nbsp;|&nbsp;
 			<a href="" onclick="popUp('_profile:ID');return false;">Profile</a>

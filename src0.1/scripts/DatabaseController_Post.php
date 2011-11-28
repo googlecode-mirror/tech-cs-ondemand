@@ -50,7 +50,7 @@ function get_post_byId_db($id, $class) {
 	$rtn = 0;
 	if($con){
 		$sql = "SELECT * FROM `techcsondemand`.`PostCollection$class`
-				WHERE `mediaid`=$id;";
+				WHERE `postid`=$id;";
 		$result = desql($sql);
 		if($result){
 			if(mysql_num_rows($result) == 1)
@@ -67,7 +67,6 @@ function get_all_posts_db($class, $tag = 0) {
 	if($tag){
 		$sql .= " WHERE `tag`='$tag'";
 	}
-	echo $sql;
 	return get_all_posts_sql_db($sql . ";");
 }
 
