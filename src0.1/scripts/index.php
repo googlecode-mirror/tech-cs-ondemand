@@ -55,7 +55,7 @@ $(document).ready(function()
 
 	// Print all subject headers and for each subject, print all class links
 	foreach ($subjects as $subject)
-	{
+	{	
 		echo '<h1 id="header_' . $subject[0]->subject . '">' . $SUBJECT_NAMES[$subject[0]->subject] . '</h1>';
 		
 		echo '<div id="div_' . $subject[0]->subject .'"><br />';
