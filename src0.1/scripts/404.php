@@ -8,10 +8,16 @@
 
 <?php require("HTML_top2.php"); ?>
 
-<?php require("topBar.php"); ?>
+<?php
+	$class = NULL;
+	require("topBar.php");
+?>
 
 <p class="cen">
-Custom 404 Page &mdash; Implement when on live server
+
+<b>404 Server Error</b><br/>
+<br/>
+The file or directory requested does not exist!
 </p>
 
 <?php require("HTML_bottom.php"); ?>

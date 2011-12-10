@@ -107,7 +107,7 @@ function popUp(content)
 	var HTML = "";
 	
 	// header
-	HTML += '<img src="banner_s.jpg" alt="TECH ON DEMAND" />';
+	HTML += '<img src="../images/banner_s.jpg" alt="TECH ON DEMAND" />';
 	
 	switch (content)
 	{
