@@ -93,7 +93,7 @@ function freshen(field)
 	{
 		if (field.value == "Password")
 		{
-			$("#pfield").html('<input type="password" name="password" class="textField" id="_pfield" />');
+			$("#pfield").html('<input type="password" name="login_password" class="textField" id="_pfield" />');
 			$("#_pfield").focus();
 		}
 
@@ -102,12 +102,12 @@ function freshen(field)
 	}
 }
 
-function popUp(content)
+function popUp(content, arg0, arg1)
 {
 	var HTML = "";
 	
 	// header
-	HTML += '<img src="../images/banner_s.jpg" alt="TECH ON DEMAND" />';
+	HTML += '<img src="images/banner_s.jpg" alt="TECH ON DEMAND" />';
 	
 	switch (content)
 	{
@@ -115,15 +115,24 @@ function popUp(content)
 	
 		HTML += '<p class="b">About</p>';
 		
-		HTML += '<p class="left">Best viewed with Google Chrome</p>';
+		HTML += '<p class="left">';
 		
+		HTML += 'Tech OnDemand is an open repository of academic resources aimed to educate anyone who is interested in the various technical topics offered at the Georgia Institute of Technology. All resources hosted on this site are authored by the teaching community at Georgia Tech&mdash;mainly Teaching Assistants (TA\'s) and class administration personnel. Whether you use these resources as a student to help study or just as a means to enhance your knowledge, we hope Tech OnDemand can teach you something new today!<br/><br/>Please note that this site currently is not officially affiliated with or endorsed by the Georgia Institute of Technology. We are pending formal acknowledgment from the institute.'
+		
+		HTML += '</p>';
+		
+		HTML += '<p class="cen"><i>Best viewed with the Google Chrome browser</i></p>';
 		break;
 		
 	case "contact":
 	
 		HTML += '<p class="b">Contact</p>';
 		
-		HTML += '<p class="left">This site is still a work in progress. Please leave contact with any errors, suggestions, comments, or any other feedback. Thank you!</p>';
+		HTML += '<p class="left">';
+		
+		HTML += 'Tech OnDemand is a project authored by David Esposito and Joseph Gee Kim during the Fall 2011 semester at the Georgia Institute of Technology originally for a computer science course, CS1332: Data Structures and Algorithms.<br/><br/>It is still a work in progress, so please contribute by sending any feedback including bugs, comments, questions, or other suggestions to <span style="color:#8888FF">admin@tech-ondemand.com</span> &mdash; Thank you!';
+		
+		HTML += '</p>';
 		
 		break;
 		
@@ -136,12 +145,20 @@ function popUp(content)
 		HTML += '<form action="" method="post">';
 		
 		HTML += '<div class="textFieldWrapper">';
-		HTML += '<input type="text" name="email" class="textField" style="color:#AAAAAA" value="E-mail" onfocus="freshen(this)" />';
+		
+		if (arg0 == null)
+			HTML += '<input type="text" name="login_email" class="textField" style="color:#AAAAAA" value="E-mail" onfocus="freshen(this)" />';
+		else
+			HTML += '<input type="text" name="login_email" class="textField" value="' + arg0 + '" />';
 		HTML += '</div>';
 		
 		HTML += '<div class="textFieldWrapper" id="pfield">';
-		HTML += '<input type="text" name="password" class="textField" style="color:#AAAAAA" value="Password" onfocus="freshen(this)" />';
+		HTML += '<input type="text" name="login_password" class="textField" style="color:#AAAAAA" value="Password" onfocus="freshen(this)" />';
 		HTML += '</div>';
+		
+		// Error message
+		if (arg1 != null)
+			HTML += '<p style="color:#FF0000">' + arg1 + '</p>';
 		
 		HTML += '<input type="submit" value="Login" />';
 		

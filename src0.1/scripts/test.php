@@ -26,7 +26,7 @@ div
 }
 
 </style>
-<script type="text/javascript" src="jquery-1.6.4.min.js"></script>
+<script type="text/javascript" src="js/jquery-1.6.4.min.js"></script>
 <script type="text/javascript">
 
 $(document).ready(function()
@@ -40,8 +40,13 @@ $(document).ready(function()
 </script>
 </head>
 <body>
-<p>stuff is here</p>
-<div></div>
-<p>more junk</p>
+
+<?php
+
+$salt = "jkim498";
+echo md5();
+
+?>
+
 </body>
 </html>

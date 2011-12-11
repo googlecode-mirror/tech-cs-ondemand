@@ -6,14 +6,28 @@
 		</td>
 		
 		<td class="right vat" style="width:450px;height:50px;">
-			<!--a href="" onclick="popUp('login');return false;">Login</a-->
-			<!--
-			<a href="" onclick="popUp('profile:ID');return false;">Joseph Gee Kim</a>
-			&nbsp;|&nbsp;
-			<a href="" onclick="popUp('_profile:ID');return false;">Profile</a>
-			&nbsp;|&nbsp;
-			<a href="" onclick="popUp('login');return false;">Login</a>
-			<!--a href="">Logout</a-->
+		
+		<?php
+		
+			if (isset($_SESSION['user']))
+			{
+				echo '
+				
+				<a href="" onclick="popUp(\'profile\',null,null);return false;">Joseph Gee Kim</a>
+				&nbsp;|&nbsp;
+				<a href="" onclick="popUp(\'_profile\',null,null);return false;">Profile</a>
+				&nbsp;|&nbsp;
+				<a href="">Logout</a>
+			
+				';
+			
+			}
+			else // anonymous/guest
+			{
+				echo '<a href="" onclick="popUp(\'login\',null,null);return false;">Login</a>';
+			}
+		?>
+		
 		</td>
 	</tr>
 	<tr>
