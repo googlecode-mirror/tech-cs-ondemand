@@ -1,5 +1,5 @@
 <?php require("HTML_top1.php"); ?>
-<?php $class = getClassById($_GET["id"]); ?>
+<?php $class = getClassById($_GET["cid"]); ?>
 <title><?php echo $class->subject . ' ' . $class->number; ?> &gt;&gt; ON DEMAND</title>
 <?php
 	require("styles.php");
@@ -103,7 +103,7 @@ $(document).ready(function()
 		echo '<div id="topicDiv_' . $i . '">';
 		foreach ($post as $p)
 		{
-			echo '<a href="post.php?cid='. $class->getId() .'&id=' . $p->getId() . '" class="post">';
+			echo '<a href="post.php?cid='. $class->getId() .'&pid=' . $p->getId() . '" class="post">';
 			echo '<h4 class="topic_' . $i . '">' . $p->title . '</h4></a>';
 		}
 		$i++;

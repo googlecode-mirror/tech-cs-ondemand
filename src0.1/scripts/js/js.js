@@ -102,7 +102,7 @@ function freshen(field)
 	}
 }
 
-function popUp(content, arg0, arg1)
+function popUp(content, cid, pid, arg0, arg1)
 {
 	var HTML = "";
 	
@@ -142,7 +142,10 @@ function popUp(content, arg0, arg1)
 	
 		HTML += "<p class=\"left\">Currently, only authorized class administration personnel are assigned accounts to this site (e.g. instructors and TA's). If you qualify as a member of this set, contact your course instructor and/or site administration.</p>";
 		
-		HTML += '<form action="" method="post">';
+		if (pid == null)
+			HTML += '<form action="class.php?cid='+cid+'" method="post">';
+		else
+			HTML += '<form action="post.php?cid='+cid+'"&pid='+pid+'" method="post">';
 		
 		HTML += '<div class="textFieldWrapper">';
 		
@@ -165,82 +168,78 @@ function popUp(content, arg0, arg1)
 		HTML += '</form><br/>';
 	
 		break;
-		
-	// view/edit profile
-	default:
-		
-		// clear header
-		HTML = "";
-		
-		// VIEW profile
-		if (content.substr(0,7) == 'profile')
-		{
-			var ID = content.substr(8);
-			var query = profileAJAXquery(ID);
-			
-			HTML += '<p class="b left">View profile</p>';
-			
-			HTML += '<table border="0" cellpadding="0" cellspacing="0" width="400">';
-				
-			HTML += '<tr>';
-			HTML += 	'<td width="100" class="vat">';
-			HTML += 	'<img src="' + query["picture"] + '" alt="TA Pic" class="tapic" />';
-			HTML += 	query["classId"] + ' ' + (query["admin"] ? 'Admin' : 'TA');
-			HTML += 	'</td>';
-			HTML += 	'<td width="20"></td>';
-			HTML += 	'<td width="290" class="vat left"><h2>' + query["name"] + '</h2><b>' + query["email"] + '</b><hr/><p>' + query["info"] + '</p><hr/></td>';
-			HTML += '</tr>';
-				
-			HTML += '</table><br/>';
-		
-		}
-		// EDIT profile
-		else if (content.substr(0,8) == '_profile')
-		{
-			var ID = content.substr(9);
-			var query = profileAJAXquery(ID);
-			
-			HTML += '<p class="left"><b>Edit profile:</b> ' + query["email"] + '</p>';
-			
-			HTML += '<form action="" method="post" enctype="multipart/form-data">';
-			
-			// table: 1 row 3 cells
-			HTML += '<table border="0" cellpadding="0" cellspacing="0" width="400">';
-				
-			HTML += '<tr>';
-			
-			// cell 1: pic
-			HTML += 	'<td width="100" class="vat">';
-			HTML += 	'<img src="' + query["picture"] + '" alt="TA Pic" class="tapic" />';
-			HTML += 	query["classId"] + ' ' + (query["admin"] ? 'Admin' : 'TA');
-			HTML += 	'</td>';
-			
-			// cell 2: spacer
-			HTML += 	'<td width="20"></td>';
-			
-			// cell 3: form content
-			HTML += 	'<td width="290" class="vat left">';
-			// inner table: 2 rows 2 cells (per each form entry)
-			HTML += 	'<table border="0" cellpadding="0" cellspacing="0" width="290">';
-			// row 1: name field
-			HTML += 	'<tr><td width="40" class="vam right b">Name&nbsp;&nbsp;</td>';
-			HTML += 	'<td width="250"><input type="text" name="name" value="'+ query["name"] +'" style="width:100%" /></td></tr>';
-			// row 2: info/bio field
-			HTML += 	'<tr><td width="40" class="vat right b">Bio&nbsp;&nbsp;</td>';
-			HTML += 	'<td width="250"><textarea name="info" rows="6" id="bioTextField" style="width:100%" maxlength="255" oninput="updateCharsLeft();">' + query["info"] + '</textarea><br/>';
-			HTML += '255 characters max (<div id="charsLeft" style="display:inline"></div> left)';
-			HTML += '<script type="text/javascript">updateCharsLeft();</script>';
-			HTML += '</td>';
-			HTML += 	'</tr></table>';
-			
-			HTML += '<br/><b>Update profile picture</b><br/><input type="file" name="tapic" /><br/>Image must have .jpg extension, square dimensions (100px by 100px), and be < 50 KB<br/><br/>';
-			HTML += '<input type="submit" value="Save changes" />';
-			HTML += '</td></tr>';
-				
-			HTML += '</table></form><br/>';
-			
-		}
 	
+	// VIEW profile
+	case "profile":
+		HTML = ""; // clear header
+
+		var query = profileAJAXquery(arg0);
+		
+		HTML += '<p class="b left">View profile</p>';
+		
+		HTML += '<table border="0" cellpadding="0" cellspacing="0" width="400">';
+			
+		HTML += '<tr>';
+		HTML += 	'<td width="100" class="vat">';
+		HTML += 	'<img src="' + query["picture"] + '" alt="TA Pic" class="tapic" />';
+		HTML += 	query["classId"] + ' ' + (query["admin"] ? 'Admin' : 'TA');
+		HTML += 	'</td>';
+		HTML += 	'<td width="20"></td>';
+		HTML += 	'<td width="290" class="vat left"><h2>' + query["name"] + '</h2><b>' + query["email"] + '</b><hr/><p>' + query["info"] + '</p><hr/></td>';
+		HTML += '</tr>';
+			
+		HTML += '</table><br/>';
+		
+		break;
+	
+	// EDIT profile
+	case "_profile":
+		HTML = ""; // clear header
+	
+		var query = profileAJAXquery(arg0);
+	
+		HTML += '<p class="left"><b>Edit profile:</b> ' + query["email"] + '</p>';
+
+		if (pid == null)
+			HTML += '<form action="class.php?cid='+cid+'" method="post" enctype="multipart/form-data">';
+		else
+			HTML += '<form action="post.php?cid='+cid+'"&pid='+pid+' method="post" enctype="multipart/form-data">';
+	
+		// table: 1 row 3 cells
+		HTML += '<table border="0" cellpadding="0" cellspacing="0" width="400">';
+		
+		HTML += '<tr>';
+	
+		// cell 1: pic
+		HTML += 	'<td width="100" class="vat">';
+		HTML += 	'<img src="' + query["picture"] + '" alt="TA Pic" class="tapic" />';
+		HTML += 	query["classId"] + ' ' + (query["admin"] ? 'Admin' : 'TA');
+		HTML += 	'</td>';
+	
+		// cell 2: spacer
+		HTML += 	'<td width="20"></td>';
+	
+		// cell 3: form content
+		HTML += 	'<td width="290" class="vat left">';
+		// inner table: 2 rows 2 cells (per each form entry)
+		HTML += 	'<table border="0" cellpadding="0" cellspacing="0" width="290">';
+		// row 1: name field
+		HTML += 	'<tr><td width="40" class="vam right b">Name&nbsp;&nbsp;</td>';
+		HTML += 	'<td width="250"><input type="text" name="profile_name" value="'+ query["name"] +'" style="width:100%" /></td></tr>';
+		// row 2: info/bio field
+		HTML += 	'<tr><td width="40" class="vat right b">Bio&nbsp;&nbsp;</td>';
+		HTML += 	'<td width="250"><textarea name="profile_info" rows="6" id="bioTextField" style="width:100%" maxlength="255" oninput="updateCharsLeft();">' + query["info"] + '</textarea><br/>';
+		HTML += '255 characters max (<div id="charsLeft" style="display:inline"></div> left)';
+		HTML += '<script type="text/javascript">updateCharsLeft();</script>';
+		HTML += '</td>';
+		HTML += 	'</tr></table>';
+	
+		HTML += '<br/><b>Update profile picture</b><br/><input type="file" name="profile_tapic" /><br/>Image must have .jpg extension, square dimensions (100px by 100px), and be < 50 KB<br/><br/>';
+		HTML += '<input type="submit" value="Save changes" />';
+		HTML += '</td></tr>';
+		
+		HTML += '</table></form><br/>';
+
 		break;
 	}
 	

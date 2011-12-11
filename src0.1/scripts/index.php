@@ -61,7 +61,7 @@ $(document).ready(function()
 		echo '<div id="div_' . $subject[0]->subject .'"><br />';
 		foreach ($subject as $class)
 		{
-			echo '<a href="class.php?id=' . $class->getID() . '" class="class">' . $class->subject . ' ' . $class->number . ' ' . $class->title . '</a><br />';
+			echo '<a href="class.php?cid=' . $class->getID() . '" class="class">' . $class->subject . ' ' . $class->number . ' ' . $class->title . '</a><br />';
 		}
 		echo '</div><br />';
 	}

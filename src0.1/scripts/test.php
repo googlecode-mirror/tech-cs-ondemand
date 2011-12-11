@@ -43,8 +43,7 @@ $(document).ready(function()
 
 <?php
 
-$salt = "jkim498";
-echo md5();
+echo $_GET["x"];
 
 ?>
 
