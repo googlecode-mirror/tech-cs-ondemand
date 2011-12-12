@@ -145,7 +145,7 @@ class OdPost {
   }
 
   function getTA() {
-    return get_ta_byId_db($this->taid);
+    return get_ta_by_id_db($this->taid);
   }
 
   function saveToDb() {

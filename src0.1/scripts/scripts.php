@@ -6,68 +6,55 @@
 include_once "scripts/OnDemandServices.php";
 
 /**
- * Converts a color from HSB to RGB color space
+ * Converts a color from HSL to RGB color space
  *
- * @param h hue from 0 to 360 (exclusive)
- * @param s saturation from 0 to 1 (percentage)
- * @param b brightness/value from 0 to 1 (percentage)
+ * @param H hue from 0 to 1 (map from 0 to 360 degrees of hue)
+ * @param S saturation from 0 to 1 (percentage: 0=colorless, 1=colorful)
+ * @param L lightness from 0 to 1 (percentage: 0=black, 0.5=std, 1=white)
  * @return a 3-element array corresponding to RGB components (0-255 of each)
  */
-function hsb2rgb($h,$s,$b)
+function hsl2rgb($H,$S,$L)
 {
-	$c = $b * $s; // chroma
-	$h_ = $h / 60;
-	$x = $c * (1 - abs($h_ % 2 - 1));
-	
-	$R = $G = $B = 0; // red, green, blue components
-	if ($h_ >= 0 && $h_ < 1)
+	// shade of gray
+	if ($S == 0)
 	{
-		$R = $c;
-		$G = $x;
-		$B = 0;
+		$r = $L * 255;
+		$g = $L * 255;
+		$b = $L * 255;
 	}
-	else if ($h_ >= 1 && $h_ < 2)
+	else
 	{
-		$R = $x;
-		$G = $c;
-		$B = 0;
+		if ($L < 0.5)
+			$var_2 = $L * (1 + $S);
+		else
+			$var_2 = ($L + $S) - ($S * $L);
+
+		$var_1 = 2 * $L - $var_2;
+		$r = 255 * hue_2_rgb($var_1,$var_2,$H + (1/3));
+		$g = 255 * hue_2_rgb($var_1,$var_2,$H);
+		$b = 255 * hue_2_rgb($var_1,$var_2,$H - (1/3));
 	}
-	else if ($h_ >= 2 && $h_ < 3)
-	{
-		$R = 0;
-		$G = $c;
-		$B = $x;
-	}
-	else if ($h_ >= 3 && $h_ < 4)
-	{
-		$R = 0;
-		$G = $x;
-		$B = $c;
-	}
-	else if ($h_ >= 4 && $h_ < 5)
-	{
-		$R = $x;
-		$G = 0;
-		$B = $c;
-	}
-	else if ($h_ >= 5 && $h_ < 6)
-	{
-		$R = $c;
-		$G = 0;
-		$B = $x;
-	}
-	
-	$m = $b - $c;
-	$R = round(($R + $m)*255);
-	$G = round(($G + $m)*255);
-	$B = round(($B + $m)*255);
-	
+
 	$RGB = array();
-	$RGB[] = (int)$R;
-	$RGB[] = (int)$G;
-	$RGB[] = (int)$B;
+	$RGB[] = round($r);
+	$RGB[] = round($g);
+	$RGB[] = round($b);
 	
 	return $RGB;
+}
+
+// not entirely sure how this function works, but assuming it works
+// src: http://serennu.com/colour/rgbtohsl.php
+function hue_2_rgb($v1,$v2,$vh)
+{
+	if ($vh < 0) $vh += 1;
+	if ($vh > 1) $vh -= 1;
+
+	if ((6 * $vh) < 1) return $v1 + ($v2 - $v1) * 6 * $vh;
+	if ((2 * $vh) < 1) return $v2;
+	if ((3 * $vh) < 2) return $v1 + ($v2 - $v1) * ((2/3 - $vh) * 6);
+	
+	return $v1;
 }
 
 function err($string)

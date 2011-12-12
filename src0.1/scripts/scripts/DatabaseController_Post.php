@@ -18,7 +18,7 @@ function create_post_db($post, $class){
 	if($con){
 		$sql = "INSERT INTO `techcsondemand`.`PostCollection$class` (`taid`, `title`, `description`, `created`, `tag`) " .
  				"VALUES ('$taid', '$title', '$description', CURRENT_TIMESTAMP, '$tag');";
-		echo "$sql<br /><br />";
+		//echo "$sql<br /><br />";
 		// ($id, $title, $description, $taid, $topic, $created = 0, $lastModified = 0)
 		if(desql($sql))
 			$rtn = new OdPost(mysql_insert_id(), $title, $description, $taid, $tag, date_create(time()), date_create(time()));
@@ -67,6 +67,7 @@ function get_all_posts_db($class, $tag = 0) {
 	if($tag){
 		$sql .= " WHERE `tag`='$tag'";
 	}
+	$sql .= " ORDER BY `title`";
 	return get_all_posts_sql_db($sql . ";");
 }
 
@@ -75,7 +76,7 @@ function get_all_posts_sql_db($sql){
 	$con = connectToDB();
 	$arr = array();
 	if($con){
-		echo "$sql<br/><br />";
+		//echo "$sql<br/><br />";
 		$result = desql($sql);
 		$num_results = mysql_num_rows($result);
 		for($i=0;$i<$num_results;$i++)

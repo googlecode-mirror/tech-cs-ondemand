@@ -1,4 +1,4 @@
-﻿<?php require("HTML_top1.php"); ?>
+<?php require("HTML_top1.php"); ?>
 <?php
 	$class = getClassById($_GET["cid"]);
 	$post = getPostById($_GET["pid"], $class->number);

@@ -194,7 +194,9 @@ function parse_ta_row_db($row){
 	$sql = "SELECT * FROM `techcsondemand`.`TaClasses`
 			WHERE `taid`=$id;";
 	$result = desql($sql);
-	return parse_ta_classes_db($result, $ta);
+	
+	return $ta;
+	//return parse_ta_classes_db($result, $ta);
 }
 
 	// DONE ... TESTED

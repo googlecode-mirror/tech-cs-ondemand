@@ -25,7 +25,7 @@ function get_all_subjects_db(){
 function get_all_tags_db($class) {
 	$con = connectToDB();
 	if($con){
-		$sql = "SELECT DISTINCT `tag` FROM `techcsondemand`.`PostCollection$class`;";
+		$sql = "SELECT DISTINCT `tag` FROM `techcsondemand`.`PostCollection$class` ORDER BY `tag`;";
 		$rtn = array();
 		$result = desql($sql);
 		while ($row = mysql_fetch_row($result))

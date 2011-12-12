@@ -13,24 +13,21 @@
 <?php
 	$numTopics = count($posts);
 	$rainbow = array();
-
-	// hue
-	$hue = 0;
 	
 	// constant saturation levels
-	$FADE = 0.4;
-	$FULL = 1;
+	$FADE = 0.5;
+	$FULL = 1.0;
 	
-	// constant brightness level
-	$BRIGHT = 0.8;
+	// constant lightness level
+	$LIGHT = 0.6; // semi-white
 	
 	// assign each topic a random hue
 	for ($i=0; $i < $numTopics; $i++)
 	{
-		$hue = mt_rand(0,359);
+		$hue = mt_rand(0,360) / 360;
 		$rainbow[] = $hue;
 		
-		$rgb = hsb2rgb($hue, $FADE, $BRIGHT);
+		$rgb = hsl2rgb($hue, $FADE, $LIGHT);
 		
 		echo '#topic_' . $i . '{';
 		echo 'background-color:rgb(' . $rgb[0] . ',' . $rgb[1] . ',' . $rgb[2] . ');';
@@ -40,7 +37,7 @@
 		echo 'background-color:rgb(' . $rgb[0] . ',' . $rgb[1] . ',' . $rgb[2] . ');';
 		echo '}';
 		
-		$rgb = hsb2rgb($hue, $FULL, $BRIGHT);
+		$rgb = hsl2rgb($hue, $FULL, $LIGHT);
 		
 		echo '#topic_' . $i . ':hover{';
 		echo 'background-color:rgb(' . $rgb[0] . ',' . $rgb[1] . ',' . $rgb[2] . ');';
@@ -96,6 +93,7 @@ $(document).ready(function()
 <p><?php echo $class->description;?></p>
 
 <?php
+
 	$i = 0;
 	foreach ($posts as $post)
 	{
@@ -104,7 +102,7 @@ $(document).ready(function()
 		foreach ($post as $p)
 		{
 			echo '<a href="post.php?cid='. $class->getId() .'&pid=' . $p->getId() . '" class="post">';
-			echo '<h4 class="topic_' . $i . '">' . $p->title . '</h4></a>';
+			echo '<h4 class="topic_' . $i . '">' . $p->title . ' <i>with '.$p->getTA()->name.'</i></h4></a>';
 		}
 		$i++;
 		echo '</div>';
