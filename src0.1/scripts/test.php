@@ -43,7 +43,7 @@ $(document).ready(function()
 
 <?php
 
-echo $_GET["x"];
+echo addslashes('\n');
 
 ?>
 

@@ -11,27 +11,27 @@
 		
 			if (isset($_SESSION['user']))
 			{
-				$TA = unserialize($_SESSION['user']);
+				$TA = $_SESSION['user'];
 			
 				echo '<a href="" onclick="popUp(\'profile\',null,null,'.$TA->getId().',null);return false;">'.$TA->name.'</a>';
 				
 				echo '&nbsp;|&nbsp;';
 				
 				if (isset($_GET['pid']))
-					echo '<a href="" onclick="popUp(\'_profile\','.$_GET['cid'].','.$_GET['pid'].',null,null);return false;">Profile</a>';
+					echo '<a href="" onclick="popUp(\'_profile\','.$_GET['cid'].','.$_GET['pid'].','.$TA->getId().',null);return false;">Profile</a>';
 				else
-					echo '<a href="" onclick="popUp(\'_profile\','.$_GET['cid'].',null,null,null);return false;">Profile</a>';
+					echo '<a href="" onclick="popUp(\'_profile\','.$_GET['cid'].',null,'.$TA->getId().',null);return false;">Profile</a>';
 				
 				echo '&nbsp;|&nbsp;';
 				
-				echo '<a href="">Logout</a>';
+				echo '<a href="logout.php?cid='.$_GET['cid'].'">Logout</a>';
 			}
 			else // anonymous/guest
 			{
 				if (isset($_GET['pid']))
 					echo '<a href="" onclick="popUp(\'login\','.$_GET['cid'].','.$_GET['pid'].',null,null);return false;">Login</a>';
 				else
-					echo '<a href="" onclick="popUp(\'login\','.$_GET['cid'].',null,null);return false;">Login</a>';
+					echo '<a href="" onclick="popUp(\'login\','.$_GET['cid'].',null,null,null);return false;">Login</a>';
 			}
 		?>
 		
@@ -43,7 +43,10 @@
 			<?php
 				if (!is_null($class))
 				{
-					echo '<a href="class.php?cid=' . $class->getId() . '" style="color:#000000">';
+					if (isset($_GET['pid']))
+						echo '<a href="class.php?cid=' . $class->getId() . '" style="text-decoration:underline">&lt;&lt; ';
+					else
+						echo '<a href="class.php?cid=' . $class->getId() . '" style="text-decoration:underline">';
 					echo $class->subject . " " . $class->number . " " . $class->title . '</a>';
 				}
 			?>

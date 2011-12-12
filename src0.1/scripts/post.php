@@ -31,17 +31,15 @@ function validate(obj)
 
 <?php require("topBar.php"); ?>
 
-<!--?php
-
-	echo '<h2 style="text-align:center">' . $post->title . '</h2>';
-	
-	echo '<p>' . $post->description . '</p>';
-
-?-->
-
 <div id="postContentWrapper">
 
-<h5>Example Post</h5>
+<?php
+
+echo '<h5>'.$post->title.'</h5>';
+
+
+
+?>
 
 <a href="<?php echo 'video/'.$post->getId() . '.flv'; ?>" id="player" class="video"></a>
 <script type="text/javascript">

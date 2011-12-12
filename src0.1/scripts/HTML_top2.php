@@ -6,7 +6,6 @@
 <?php
 
 // LOGIN BUSINESS
-
 if (isset($_POST['login_email']))
 {
 	connectToDB();
@@ -25,8 +24,14 @@ if (isset($_POST['login_email']))
 	}
 	else // bad login
 	{
-		echo 'BAD BAD BAD';
-	
+		echo '<script type="text/javascript">';
+		echo '$(document).ready(function(){';
+		if (isset($_GET['pid']))
+			echo 'popUp("login",'.$_GET['cid'].','.$_GET['pid'].',"'.$_POST['login_email'].'","Invalid username/password combination");';
+		else
+			echo 'popUp("login",'.$_GET['cid'].',null,"'.$_POST['login_email'].'","Invalid username/password combination");';
+		echo '});';
+		echo '</script>';
 	}
 }
 

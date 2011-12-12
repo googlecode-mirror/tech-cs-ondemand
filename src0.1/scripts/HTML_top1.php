@@ -1,5 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
+<?php include_once "scripts/OnDemandServices.php"; ?>
 <?php session_start(); ?>
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -7,5 +8,3 @@
 
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-	
-<?php include_once "scripts/OnDemandServices.php"; ?>

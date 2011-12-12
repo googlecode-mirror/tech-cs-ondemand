@@ -102,6 +102,16 @@ function freshen(field)
 	}
 }
 
+/**
+ * Custom dialog popup overlay
+ *
+ * @param content one of several identifiers selecting which content to display
+ * @param cid GET variable for current page's class ID
+ * @param pid GET variable for current page's post ID (if exists)
+ * @param arg0 optional parameter used for additional message passing
+ * @param arg1 same as arg0 -- both of these should be null if unused
+ * @param ... additional argN params could be added in the future
+ */
 function popUp(content, cid, pid, arg0, arg1)
 {
 	var HTML = "";
@@ -145,7 +155,7 @@ function popUp(content, cid, pid, arg0, arg1)
 		if (pid == null)
 			HTML += '<form action="class.php?cid='+cid+'" method="post">';
 		else
-			HTML += '<form action="post.php?cid='+cid+'"&pid='+pid+'" method="post">';
+			HTML += '<form action="post.php?cid='+cid+'&pid='+pid+'" method="post">';
 		
 		HTML += '<div class="textFieldWrapper">';
 		
@@ -203,7 +213,7 @@ function popUp(content, cid, pid, arg0, arg1)
 		if (pid == null)
 			HTML += '<form action="class.php?cid='+cid+'" method="post" enctype="multipart/form-data">';
 		else
-			HTML += '<form action="post.php?cid='+cid+'"&pid='+pid+' method="post" enctype="multipart/form-data">';
+			HTML += '<form action="post.php?cid='+cid+'&pid='+pid+'" method="post" enctype="multipart/form-data">';
 	
 		// table: 1 row 3 cells
 		HTML += '<table border="0" cellpadding="0" cellspacing="0" width="400">';
@@ -287,13 +297,21 @@ document.onkeydown = _closePopUp;
 function profileAJAXquery(ID)
 {
 	var result = new Array();
+	var xmlhttp = new XMLHttpRequest();
 
-	result["classId"] = 'CS 1332'; // may require multiple DB queries
-	result["name"] = 'Joseph Gee Kim';
-	result["email"] = 'jkim498@gatech.edu';
-	result["admin"] = Math.floor(Math.random() * 2) == 0 ? true : false;
-	result["info"] = 'This bio text field should filter out HTML entities and trim all whitespace down to one space to enforce a linear max character limit in order to ensure the dialog box fits in a minimal resolution.';
-	result["picture"] = 'TApics/42.jpg'; // relative URL
+	// prevent caching with GET var t
+	xmlhttp.open("GET","scripts/AJAXprofile.php?id="+ID+"&t=" + Math.random(),false);
+	xmlhttp.send();
+	
+	var response = xmlhttp.responseText;
+	response = response.split('<delim>');
+
+	result["classId"] = response[0];
+	result["name"] = response[1];
+	result["email"] = response[2];
+	result["admin"] = parseInt(response[3]);
+	result["info"] = response[4];
+	result["picture"] = 'TApics/' + ID + '.jpg';
 	
 	return result;
 }
