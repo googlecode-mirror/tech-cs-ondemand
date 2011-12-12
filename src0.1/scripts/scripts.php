@@ -70,8 +70,14 @@ function hsb2rgb($h,$s,$b)
 	return $RGB;
 }
 
+function err($string)
+{
+	echo '<p style="color:#FF0000">'.$string.'</p>';
+}
 
-
-
+function out($string)
+{
+	echo '<p style="color:#00CC00">'.$string.'</p>';
+}
 
 ?>

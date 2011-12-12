@@ -43,7 +43,94 @@ $(document).ready(function()
 
 <?php
 
-echo addslashes('\n');
+require("scripts/OnDemandServices.php");
+
+connectToDb();
+
+// ClassCollection
+echo '<h1>ClassCollection</h1>';
+$q = mysql_query("SELECT * FROM `ClassCollection`");
+echo '<table border="1" cellpadding="2" cellspacing="0">';
+
+echo '<tr>';
+echo '<td><b>classid</b></td>';
+echo '<td><b>title</b></td>';
+echo '<td><b>description</b></td>';
+echo '<td><b>subject</b></td>';
+echo '<td><b>number</b></td>';
+echo '</tr>';
+
+while ($r = mysql_fetch_array($q))
+{
+	echo '<tr>';
+	echo '<td>' . $r['classid'] . '</td>';
+	echo '<td>' . $r['title'] . '</td>';
+	echo '<td>' . $r['description'] . '</td>';
+	echo '<td>' . $r['subject'] . '</td>';
+	echo '<td>' . $r['number'] . '</td>';
+	echo '</tr>';
+}
+echo '</table>';
+
+// PostCollection1332
+echo '<h1>PostCollection1332</h1>';
+$q = mysql_query("SELECT * FROM `PostCollection1332`");
+echo '<table border="1" cellpadding="2" cellspacing="0">';
+
+echo '<tr>';
+echo '<td><b>postid</b></td>';
+echo '<td><b>taid</b></td>';
+echo '<td><b>title</b></td>';
+echo '<td><b>description</b></td>';
+echo '<td><b>created</b></td>';
+echo '<td><b>timestamp</b></td>';
+echo '<td><b>tag</b></td>';
+echo '</tr>';
+
+while ($r = mysql_fetch_array($q))
+{
+	echo '<tr>';
+	echo '<td>' . $r['postid'] . '</td>';
+	echo '<td>' . $r['taid'] . '</td>';
+	echo '<td>' . $r['title'] . '</td>';
+	echo '<td>' . $r['description'] . '</td>';
+	echo '<td>' . $r['created'] . '</td>';
+	echo '<td>' . $r['timestamp'] . '</td>';
+	echo '<td>' . $r['tag'] . '</td>';
+	echo '</tr>';
+}
+echo '</table>';
+
+// TaCollection
+echo '<h1>TaCollection</h1>';
+$q = mysql_query("SELECT * FROM `TaCollection`");
+echo '<table border="1" cellpadding="2" cellspacing="0">';
+
+echo '<tr>';
+echo '<td><b>taid</b></td>';
+echo '<td><b>classid</b></td>';
+echo '<td><b>name</b></td>';
+echo '<td><b>email</b></td>';
+echo '<td><b>password</b></td>';
+echo '<td><b>active</b></td>';
+echo '<td><b>admin</b></td>';
+echo '<td><b>info</b></td>';
+echo '</tr>';
+
+while ($r = mysql_fetch_array($q))
+{
+	echo '<tr>';
+	echo '<td>' . $r['taid'] . '</td>';
+	echo '<td>' . $r['classid'] . '</td>';
+	echo '<td>' . $r['name'] . '</td>';
+	echo '<td>' . $r['email'] . '</td>';
+	echo '<td>' . $r['password'] . '</td>';
+	echo '<td>' . $r['active'] . '</td>';
+	echo '<td>' . $r['admin'] . '</td>';
+	echo '<td>' . $r['info'] . '</td>';
+	echo '</tr>';
+}
+echo '</table>';
 
 ?>
 

@@ -43,10 +43,7 @@
 			<?php
 				if (!is_null($class))
 				{
-					if (isset($_GET['pid']))
-						echo '<a href="class.php?cid=' . $class->getId() . '" style="text-decoration:underline">&lt;&lt; ';
-					else
-						echo '<a href="class.php?cid=' . $class->getId() . '" style="text-decoration:underline">';
+					echo '<a href="class.php?cid=' . $class->getId() . '" style="text-decoration:underline">&lt;&lt; ';
 					echo $class->subject . " " . $class->number . " " . $class->title . '</a>';
 				}
 			?>

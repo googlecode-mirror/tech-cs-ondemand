@@ -18,22 +18,35 @@ if (isset($_POST['login_email']))
 	
 	$salt = substr($email,0,strpos($email,'@'));
 
-	if (md5(md5($password) . $salt) == $QUERY['password'])
+	if (md5(md5($password) . $salt) == $QUERY['password'] && $QUERY['active'] == '1')
 	{
 		$_SESSION['user'] = new OdTA($QUERY['taid'], $QUERY['classid'], $QUERY['name'], $QUERY['email'], $QUERY['password'], $QUERY['active'], $QUERY['admin'], $QUERY['info'], $QUERY['picture']);
 	}
 	else // bad login
 	{
+		$errorMsg = "";
+		if ($QUERY['active'] == '0')
+			$errorMsg = "This account is currently not active";
+		else
+			$errorMsg = "Invalid username/password combination";
+	
 		echo '<script type="text/javascript">';
 		echo '$(document).ready(function(){';
-		if (isset($_GET['pid']))
-			echo 'popUp("login",'.$_GET['cid'].','.$_GET['pid'].',"'.$_POST['login_email'].'","Invalid username/password combination");';
-		else
-			echo 'popUp("login",'.$_GET['cid'].',null,"'.$_POST['login_email'].'","Invalid username/password combination");';
+		echo 'popUp("login",'.$_GET['cid'].',null,"'.$_POST['login_email'].'","'.$errorMsg.'");';
 		echo '});';
 		echo '</script>';
 	}
 }
 
+// UPDATE PROFILE BUSINESS
+if (isset($_POST['profile_name']))
+{
+	connectToDB();
+	
+	mysql_query(sprintf("UPDATE `TaCollection` SET `name`='%s',`info`='%s' WHERE `TaCollection`.`taid`=%d",$_POST['profile_name'],$_POST['profile_info'],$_SESSION['user']->getId()));
+
+	if ($_FILES['profile_tapic']['type'] == 'image/jpeg' && $_FILES['profile_tapic']['size'] < 50000)
+		move_uploaded_file($_FILES['profile_tapic']['tmp_name'], "TApics/" . $_SESSION['user']->getId() . ".jpg");
+}
 
 ?>

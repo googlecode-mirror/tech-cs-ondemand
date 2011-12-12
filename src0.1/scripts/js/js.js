@@ -191,7 +191,7 @@ function popUp(content, cid, pid, arg0, arg1)
 			
 		HTML += '<tr>';
 		HTML += 	'<td width="100" class="vat">';
-		HTML += 	'<img src="' + query["picture"] + '" alt="TA Pic" class="tapic" />';
+		HTML += 	'<img src="' + query["picture"] + '?t='+Math.random()+'" alt="TA Pic" class="tapic" />';
 		HTML += 	query["classId"] + ' ' + (query["admin"] ? 'Admin' : 'TA');
 		HTML += 	'</td>';
 		HTML += 	'<td width="20"></td>';
@@ -222,7 +222,7 @@ function popUp(content, cid, pid, arg0, arg1)
 	
 		// cell 1: pic
 		HTML += 	'<td width="100" class="vat">';
-		HTML += 	'<img src="' + query["picture"] + '" alt="TA Pic" class="tapic" />';
+		HTML += 	'<img src="' + query["picture"] + '?t='+Math.random()+'" alt="TA Pic" class="tapic" />';
 		HTML += 	query["classId"] + ' ' + (query["admin"] ? 'Admin' : 'TA');
 		HTML += 	'</td>';
 	

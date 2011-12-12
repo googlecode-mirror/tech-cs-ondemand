@@ -12,6 +12,11 @@
 	&copy; Copyright David Esposito and Joseph Gee Kim
 	</span>
 
+<?php
+	if (isset($_SESSION['user']))
+		echo '<br/><a href="admin.php?cid='.$_GET['cid'].'">Admin</a><br/>';
+?>
+
 </div>
 </div> <!--end mainFrame div-->
 <div id="popUpBG" onclick="closePopUp();"></div>
