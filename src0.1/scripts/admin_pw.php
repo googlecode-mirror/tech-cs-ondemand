@@ -20,17 +20,17 @@
 
 <tr>
 <td width="100" class="left">Old Password:</td>
-<td><input type="password" name="old" width="25" /></td>
+<td><input type="password" name="old" size="15" /></td>
 </tr>
 
 <tr>
 <td class="left">New Password:</td>
-<td><input type="password" name="new" width="25" /></td>
+<td><input type="password" name="new" size="15" /></td>
 </tr>
 
 <tr>
 <td class="left">Confirm:</td>
-<td><input type="password" name="confirm" width="25" /></td>
+<td><input type="password" name="confirm" size="15" /></td>
 </tr>
 
 <tr>

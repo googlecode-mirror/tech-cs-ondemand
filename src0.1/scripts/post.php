@@ -35,9 +35,12 @@ function validate(obj)
 
 <?php
 
-echo '<h5>'.$post->title.'</h5>';
+echo '<h5>'.$post->title;
 
+if (isset($_SESSION['user']))
+	echo ' (<a href="post_edit.php?cid='.$_GET['cid'].'&pid='.$_GET['pid'].'">edit</a>)';
 
+echo '</h5>';
 
 ?>
 
@@ -61,6 +64,16 @@ flowplayer("player", {src:"flash/flowplayer-3.2.7.swf", wmode:"opaque"},
 <div id="postDescription">
 
 <p><?php echo $post->description; ?></p>
+<p class="gray">
+<?php
+
+$lastModified = $post->getLastModified();
+//$lastModified->setTimezone(new DateTimezone("US/Eastern")); // this sets -5 hours
+
+echo '<i>Last modified on ' . $lastModified->format("F j, Y, g:i a") . ' (local server time) by <a href="" onclick="popUp(\'profile\',null,null,'.$post->getTA()->getId().',null);return false;">'.$post->getTA()->name.'</a></i>';
+
+?>
+</p>
 </div>
 
 <hr/><br/><br/>

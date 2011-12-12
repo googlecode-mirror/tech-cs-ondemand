@@ -5,6 +5,41 @@
 	require("styles.php");
 	require("scripts.php");
 	
+	// CREATE POST BUSINESS
+	if (isset($_POST['create_post']))
+	{
+		if ($_FILES['create_post_file']['error'] == 0)
+		{
+			$ext = pathinfo($_FILES['create_post_file']['name']);
+			$ext = $ext['extension'];
+		
+			if ($ext == 'flv' && $_FILES['create_post_file']['size'] < 30000000)
+			{
+				connectToDb();
+				
+				mysql_query("INSERT INTO `PostCollection1332` (`postid`,`taid`,`title`,`description`,`created`,`timestamp`,`tag`) VALUES(NULL, '".$_SESSION['user']->getId()."', '".addslashes($_POST['create_post_title'])."', '".addslashes($_POST['create_post_description'])."',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,'".addslashes($_POST['create_post_topic'])."')");
+
+				move_uploaded_file($_FILES['create_post_file']['tmp_name'], "video/" . mysql_insert_id() . ".flv");
+			
+				$postResult = "Created new post successfully!";
+			}
+			else $postResult = "Wrong file type or file too large. No post created.";
+		}
+		else $postResult = "No file specified. No post created.";
+	}
+	// DELETE POST BUSINESS
+	else if (isset($_POST['edit_post_delete']))
+	{
+		connectToDb();
+		
+		mysql_query("DELETE FROM `PostCollection1332` WHERE `postid`=".$_POST['edit_post_delete_pid']);
+
+		$file = "video/".$_POST['edit_post_delete_pid'].".flv";
+		if (file_exists($file)) unlink($file);
+
+		$postResult = "Deleted post successfully!";
+	}
+	
 	$posts = $class->getAllPosts();
 	mt_srand($class->number); // seed used for header random color generation
 ?>
@@ -90,9 +125,16 @@ $(document).ready(function()
 
 <?php require("topBar.php"); ?>
 
+<?php if (isset($postResult)) out($postResult); ?>
+
 <p><?php echo $class->description;?></p>
 
 <?php
+
+	if (isset($_SESSION['user']))
+	{
+		echo '<p class="right"><a href="post_edit.php?cid='.$_GET['cid'].'"> + Create new post</a></p>';
+	}
 
 	$i = 0;
 	foreach ($posts as $post)
