@@ -13,7 +13,7 @@
 	</span>
 
 <?php
-	if (isset($_SESSION['user']))
+	if (isset($_SESSION['user']) && isset($_GET['cid']))
 		echo '<br/><a href="admin.php?cid='.$_GET['cid'].'">Admin</a><br/>';
 ?>
 
