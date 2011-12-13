@@ -102,6 +102,9 @@ function freshen(field)
 	}
 }
 
+closeButton = '<p class="right" style="margin:0;padding:0;"><a href="" class="X" onclick="closePopUp();return false;">X</a></p>';
+popUpSplash = '<img src="images/banner_s.jpg" alt="TECH ON DEMAND" />';
+
 /**
  * Custom dialog popup overlay
  *
@@ -114,14 +117,13 @@ function freshen(field)
  */
 function popUp(content, cid, pid, arg0, arg1)
 {
-	var HTML = "";
-	
-	// header
-	HTML += '<img src="images/banner_s.jpg" alt="TECH ON DEMAND" />';
-	
 	switch (content)
 	{
 	case "about":
+		var HTML = "";
+
+		HTML += closeButton;
+		HTML += popUpSplash;
 	
 		HTML += '<p class="b">About</p>';
 		
@@ -132,9 +134,15 @@ function popUp(content, cid, pid, arg0, arg1)
 		HTML += '</p>';
 		
 		HTML += '<p class="cen"><i>Best viewed with the Google Chrome browser</i></p>';
+		
+		$("#popUp").html(HTML);
 		break;
 		
 	case "contact":
+		var HTML = "";
+
+		HTML += closeButton;
+		HTML += popUpSplash;
 	
 		HTML += '<p class="b">Contact</p>';
 		
@@ -144,9 +152,14 @@ function popUp(content, cid, pid, arg0, arg1)
 		
 		HTML += '</p>';
 		
+		$("#popUp").html(HTML);
 		break;
 		
 	case "login":
+		var HTML = "";
+
+		HTML += closeButton;
+		HTML += popUpSplash;
 	
 		HTML += '<p class="b">Login</p>';
 	
@@ -175,89 +188,137 @@ function popUp(content, cid, pid, arg0, arg1)
 		
 		HTML += '<input type="submit" value="Login" />';
 		
-		HTML += '</form><br/>';
+		HTML += '</form>';
 	
+		$("#popUp").html(HTML);
 		break;
 	
 	// VIEW profile
 	case "profile":
-		HTML = ""; // clear header
 
-		var query = profileAJAXquery(arg0);
+		var xmlhttp = new XMLHttpRequest();
+	
+		xmlhttp.onreadystatechange = function()
+		{
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) // RDY & OK response
+			{
+				var response = xmlhttp.responseText;
+				response = response.split('<delim>');
+
+				var query = new Array();
+				query["classId"] = response[0];
+				query["name"] = response[1];
+				query["email"] = response[2];
+				query["admin"] = parseInt(response[3]);
+				query["info"] = response[4];
+				query["picture"] = 'TApics/' + arg0 + '.jpg';
+
+				//////////////////////////////////////////////////////////////////////
+				var HTML = "";
+				HTML += closeButton;
+				HTML += '<br/>';
+	
+				HTML += '<table border="0" cellpadding="0" cellspacing="0" width="400">';
+					
+				HTML += '<tr>';
+				HTML += 	'<td width="100" class="vat">';
+				HTML += 	'<img src="' + query["picture"] + '?t='+Math.random()+'" alt="TA Pic" class="tapic" />';
+				HTML += 	query["classId"] + ' ' + (query["admin"] ? 'Admin' : 'TA');
+				HTML += 	'</td>';
+				HTML += 	'<td width="20"></td>';
+				HTML += 	'<td width="290" class="vat left"><h2>' + query["name"] + '</h2><b>' + query["email"] + '</b><hr/><p>' + query["info"] + '</p><hr/></td>';
+				HTML += '</tr>';
+					
+				HTML += '</table>';
+				//////////////////////////////////////////////////////////////////////
+
+				$("#popUp").html(HTML);
+			}
+		};
 		
-		HTML += '<p class="b left">View profile</p>';
-		
-		HTML += '<table border="0" cellpadding="0" cellspacing="0" width="400">';
-			
-		HTML += '<tr>';
-		HTML += 	'<td width="100" class="vat">';
-		HTML += 	'<img src="' + query["picture"] + '?t='+Math.random()+'" alt="TA Pic" class="tapic" />';
-		HTML += 	query["classId"] + ' ' + (query["admin"] ? 'Admin' : 'TA');
-		HTML += 	'</td>';
-		HTML += 	'<td width="20"></td>';
-		HTML += 	'<td width="290" class="vat left"><h2>' + query["name"] + '</h2><b>' + query["email"] + '</b><hr/><p>' + query["info"] + '</p><hr/></td>';
-		HTML += '</tr>';
-			
-		HTML += '</table><br/>';
+		// prevent caching with GET var t
+		xmlhttp.open("GET","scripts/AJAXprofile.php?id="+arg0+"&t=" + Math.random(),true);
+		xmlhttp.send();
 		
 		break;
 	
 	// EDIT profile
 	case "_profile":
-		HTML = ""; // clear header
 	
-		var query = profileAJAXquery(arg0);
+		var xmlhttp = new XMLHttpRequest();
 	
-		HTML += '<p class="left"><b>Edit profile:</b> ' + query["email"] + '</p>';
+		xmlhttp.onreadystatechange = function()
+		{
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) // RDY & OK response
+			{
+				var response = xmlhttp.responseText;
+				response = response.split('<delim>');
 
-		if (pid == null)
-			HTML += '<form action="class.php?cid='+cid+'" method="post" enctype="multipart/form-data">';
-		else
-			HTML += '<form action="post.php?cid='+cid+'&pid='+pid+'" method="post" enctype="multipart/form-data">';
+				var query = new Array();
+				query["classId"] = response[0];
+				query["name"] = response[1];
+				query["email"] = response[2];
+				query["admin"] = parseInt(response[3]);
+				query["info"] = response[4];
+				query["picture"] = 'TApics/' + arg0 + '.jpg';
+
+				//////////////////////////////////////////////////////////////////////
+				var HTML = "";
+				HTML += closeButton;
+				HTML += '<br/>';
 	
-		// table: 1 row 3 cells
-		HTML += '<table border="0" cellpadding="0" cellspacing="0" width="400">';
+				if (pid == null)
+					HTML += '<form action="class.php?cid='+cid+'" method="post" enctype="multipart/form-data">';
+				else
+					HTML += '<form action="post.php?cid='+cid+'&pid='+pid+'" method="post" enctype="multipart/form-data">';
+			
+				// table: 1 row 3 cells
+				HTML += '<table border="0" cellpadding="0" cellspacing="0" width="400">';
+				
+				HTML += '<tr>';
+			
+				// cell 1: pic
+				HTML += 	'<td width="100" class="vat">';
+				HTML += 	'<img src="' + query["picture"] + '?t='+Math.random()+'" alt="TA Pic" class="tapic" />';
+				HTML += 	query["classId"] + ' ' + (query["admin"] ? 'Admin' : 'TA');
+				HTML += 	'</td>';
+			
+				// cell 2: spacer
+				HTML += 	'<td width="20"></td>';
+			
+				// cell 3: form content
+				HTML += 	'<td width="290" class="vat left">';
+				// inner table: 2 rows 2 cells (per each form entry)
+				HTML += 	'<table border="0" cellpadding="0" cellspacing="0" width="290">';
+				// row 1: name field
+				HTML += 	'<tr><td width="40" class="vam right b">Name&nbsp;&nbsp;</td>';
+				HTML += 	'<td width="250"><input type="text" name="profile_name" value="'+ query["name"] +'" style="width:100%" /></td></tr>';
+				// row 2: info/bio field
+				HTML += 	'<tr><td width="40" class="vat right b">Bio&nbsp;&nbsp;</td>';
+				HTML += 	'<td width="250"><textarea name="profile_info" rows="6" id="bioTextField" style="width:100%" maxlength="255" oninput="updateCharsLeft();">' + query["info"] + '</textarea><br/>';
+				HTML += '255 characters max (<div id="charsLeft" style="display:inline"></div> left)';
+				HTML += '<script type="text/javascript">updateCharsLeft();</script>';
+				HTML += '</td>';
+				HTML += 	'</tr></table>';
+			
+				HTML += '<br/><b>Update profile picture</b><br/><input type="file" name="profile_tapic" /><br/>Image must have .jpg extension, square dimensions (100px by 100px), and be < 50 KB<br/><br/>';
+				HTML += '<input type="submit" value="Save changes" />';
+				HTML += '</td></tr>';
+				
+				HTML += '</table></form>';
+				//////////////////////////////////////////////////////////////////////
+
+				$("#popUp").html(HTML);
+			}
+		};
 		
-		HTML += '<tr>';
-	
-		// cell 1: pic
-		HTML += 	'<td width="100" class="vat">';
-		HTML += 	'<img src="' + query["picture"] + '?t='+Math.random()+'" alt="TA Pic" class="tapic" />';
-		HTML += 	query["classId"] + ' ' + (query["admin"] ? 'Admin' : 'TA');
-		HTML += 	'</td>';
-	
-		// cell 2: spacer
-		HTML += 	'<td width="20"></td>';
-	
-		// cell 3: form content
-		HTML += 	'<td width="290" class="vat left">';
-		// inner table: 2 rows 2 cells (per each form entry)
-		HTML += 	'<table border="0" cellpadding="0" cellspacing="0" width="290">';
-		// row 1: name field
-		HTML += 	'<tr><td width="40" class="vam right b">Name&nbsp;&nbsp;</td>';
-		HTML += 	'<td width="250"><input type="text" name="profile_name" value="'+ query["name"] +'" style="width:100%" /></td></tr>';
-		// row 2: info/bio field
-		HTML += 	'<tr><td width="40" class="vat right b">Bio&nbsp;&nbsp;</td>';
-		HTML += 	'<td width="250"><textarea name="profile_info" rows="6" id="bioTextField" style="width:100%" maxlength="255" oninput="updateCharsLeft();">' + query["info"] + '</textarea><br/>';
-		HTML += '255 characters max (<div id="charsLeft" style="display:inline"></div> left)';
-		HTML += '<script type="text/javascript">updateCharsLeft();</script>';
-		HTML += '</td>';
-		HTML += 	'</tr></table>';
-	
-		HTML += '<br/><b>Update profile picture</b><br/><input type="file" name="profile_tapic" /><br/>Image must have .jpg extension, square dimensions (100px by 100px), and be < 50 KB<br/><br/>';
-		HTML += '<input type="submit" value="Save changes" />';
-		HTML += '</td></tr>';
-		
-		HTML += '</table></form><br/>';
+		// prevent caching with GET var t
+		xmlhttp.open("GET","scripts/AJAXprofile.php?id="+arg0+"&t=" + Math.random(),true);
+		xmlhttp.send();
 
 		break;
 	}
-	
-	// footer
-	HTML += '<a href="" onclick="closePopUp();return false;">Close Window</a>';
-	
-	$("#popUp").html(HTML);
-	
+		
 	$("#popUpBG").fadeTo("fast",0.5);
 	$("#popUp").fadeIn("fast");
 }
@@ -280,41 +341,6 @@ function closePopUp()
 
 // set key listener
 document.onkeydown = _closePopUp;
-
-/**
- * AJAX query to the server looking up information
- * to be displayed when opening a profile
- *
- * @param ID the unique user ID used for DB query
- * @return associative array containing data with the following keys:
- *	classId : String (eg: "CS 1332")
- *	name : String
- *	email : String
- *	admin : boolean
- *	info : String
- *	pic : String (relative URL)
- */
-function profileAJAXquery(ID)
-{
-	var result = new Array();
-	var xmlhttp = new XMLHttpRequest();
-
-	// prevent caching with GET var t
-	xmlhttp.open("GET","scripts/AJAXprofile.php?id="+ID+"&t=" + Math.random(),false);
-	xmlhttp.send();
-	
-	var response = xmlhttp.responseText;
-	response = response.split('<delim>');
-
-	result["classId"] = response[0];
-	result["name"] = response[1];
-	result["email"] = response[2];
-	result["admin"] = parseInt(response[3]);
-	result["info"] = response[4];
-	result["picture"] = 'TApics/' + ID + '.jpg';
-	
-	return result;
-}
 
 function updateCharsLeft()
 {

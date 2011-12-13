@@ -132,6 +132,19 @@ a.post:hover
 	box-shadow:0px 0px 10px 5px #555555;
 }
 
+a.X
+{
+	font:bold 16px Verdana, sans-serif;
+	color:#BBBBBB;
+	text-decoration:none;
+}
+
+a.X:hover
+{
+	color:black;
+	text-decoration:none;
+}
+
 .video
 {
 	display:block;
