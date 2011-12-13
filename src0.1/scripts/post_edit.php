@@ -18,15 +18,14 @@ $uploadMsg = "Video files must be in .flv (Flash video) format and not exceed 30
 if (isset($_GET['pid']))
 {
 	echo '<h5>Edit Post: '.$post->title.'</h5>';
-	echo '<form action="post.php?cid='.$_GET['cid'].'&pid='.$_GET['pid'].'" method="post" enctype="multipart/form-data">';
+	echo '<form action="post.php?cid='.$_GET['cid'].'&pid='.$_GET['pid'].'" method="post">';
 	
 	echo '<input type="text" name="edit_post_title" value="'.$post->title.'" size="50" /><br/>';
-	echo '<input type="text" name="edit_post_description" value="'.$post->topic.'" size="50" /><br/>';
+	echo '<input type="text" name="edit_post_topic" value="'.$post->topic.'" size="50" /><br/>';
 	echo '<textarea name="edit_post_description" rows="10" cols="50">'.$post->description.'</textarea><br/>';
-	echo '<input type="file" name="edit_post_file" /><br/>';
-	echo $uploadMsg . '<br/><br/>';
 	
 	echo '<input type="submit" name="edit_post" value="Submit Changes" />';
+	echo '<a href="post.php?cid='.$_GET['cid'].'&pid='.$_GET['pid'].'"><input type="button" value="Cancel" /></a>';
 	echo '</form><br/>';
 	
 	echo '<form action="class.php?cid='.$_GET['cid'].'" method="post" class="right" onsubmit="return confirm(\'Are you sure you want to delete this post?\')">';

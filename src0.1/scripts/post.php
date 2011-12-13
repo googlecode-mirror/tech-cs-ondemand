@@ -1,5 +1,14 @@
 <?php require("HTML_top1.php"); ?>
 <?php
+
+	// EDIT POST BUSINESS
+	if (isset($_POST['edit_post']))
+	{
+		connectToDb();
+		
+		mysql_query("UPDATE `PostCollection1332` SET `taid`=".$_SESSION['user']->getId().",`title`='".addslashes($_POST['edit_post_title'])."',`description`='".addslashes($_POST['edit_post_description'])."',`timestamp`=CURRENT_TIMESTAMP,`tag`='".addslashes($_POST['edit_post_topic'])."' WHERE `postid`=".$_GET['pid']);
+	}
+
 	$class = getClassById($_GET["cid"]);
 	$post = getPostById($_GET["pid"], $class->number);
 ?>
