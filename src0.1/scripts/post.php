@@ -72,7 +72,7 @@ flowplayer("player", {src:"flash/flowplayer-3.2.7.swf", wmode:"opaque"},
 
 <div id="postDescription">
 
-<p><?php echo $post->description; ?></p>
+<p><b>Description:</b><br/><br/><?php echo $post->description; ?></p>
 <p class="gray">
 <?php
 
@@ -86,6 +86,10 @@ echo '<i>Last modified on ' . $lastModified->format("F j, Y, g:i a") . ' (local 
 </div>
 
 <hr/><br/><br/>
+
+<p class="cen">
+<script type="text/javascript" src="gcount/graphcount.php?page=post"></script>
+</p>
 
 </div>
 

@@ -13,7 +13,7 @@
 	if (isset($_GET['pid'])) $post = getPostById($_GET["pid"], $class->number);
 	require("topBar.php");
 
-$uploadMsg = "Video files must be in .flv (Flash video) format and not exceed 30 MB in size.<br/>The video upload cap is currently subject to change, as we continue to optimize the site.<br/><br/>The video player on this site has a widescreen (16:9) aspect ratio with a resolution of 640x360 pixels.<br/>We suggest your video file match the video player's resolution or match 480x360 pixels if your video has a letterbox (4:3) aspect ratio.";
+$uploadMsg = "Video files must be in .flv (Flash video) format and not exceed 10 MB in size.<br/>The video upload cap is currently subject to change, as we continue to optimize the site.<br/><br/>The video player on this site has a widescreen (16:9) aspect ratio with a resolution of 640x360 pixels.<br/>We suggest your video file match the video player's resolution or match 480x360 pixels if your video has a letterbox (4:3) aspect ratio.";
 	
 if (isset($_GET['pid']))
 {
