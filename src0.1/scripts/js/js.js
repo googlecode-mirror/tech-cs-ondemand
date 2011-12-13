@@ -117,6 +117,8 @@ popUpSplash = '<img src="images/banner_s.jpg" alt="TECH ON DEMAND" />';
  */
 function popUp(content, cid, pid, arg0, arg1)
 {
+	$("#popUp").html(closeButton); // empty previous popUp's HTML
+
 	switch (content)
 	{
 	case "about":
