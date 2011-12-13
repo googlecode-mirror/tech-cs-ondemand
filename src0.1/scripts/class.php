@@ -13,7 +13,7 @@
 			$ext = pathinfo($_FILES['create_post_file']['name']);
 			$ext = $ext['extension'];
 		
-			if ($ext == 'flv' && $_FILES['create_post_file']['size'] < 30000000)
+			if ($ext == 'flv' && $_FILES['create_post_file']['size'] < 10000000)
 			{
 				connectToDb();
 				
@@ -143,7 +143,7 @@ $(document).ready(function()
 		echo '<div id="topicDiv_' . $i . '">';
 		foreach ($post as $p)
 		{
-			echo '<a href="post.php?cid='. $class->getId() .'&pid=' . $p->getId() . '" class="post">';
+			echo '<a href="post.php?cid='. $class->getId() .'&amp;pid=' . $p->getId() . '" class="post">';
 			echo '<h4 class="topic_' . $i . '">' . $p->title . ' <i>with '.$p->getTA()->name.'</i></h4></a>';
 		}
 		$i++;

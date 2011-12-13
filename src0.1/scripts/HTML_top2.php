@@ -43,7 +43,7 @@ if (isset($_POST['profile_name']))
 {
 	connectToDB();
 	
-	mysql_query(sprintf("UPDATE `TaCollection` SET `name`='%s',`info`='%s' WHERE `TaCollection`.`taid`=%d",$_POST['profile_name'],$_POST['profile_info'],$_SESSION['user']->getId()));
+	mysql_query(sprintf("UPDATE `TaCollection` SET `name`='%s',`info`='%s' WHERE `TaCollection`.`taid`=%d",addslashes($_POST['profile_name']),addslashes($_POST['profile_info']),$_SESSION['user']->getId()));
 
 	if ($_FILES['profile_tapic']['type'] == 'image/jpeg' && $_FILES['profile_tapic']['size'] < 50000)
 		move_uploaded_file($_FILES['profile_tapic']['tmp_name'], "TApics/" . $_SESSION['user']->getId() . ".jpg");

@@ -60,7 +60,7 @@ if (isset($_POST["submit"]))
 		$new = md5(md5($_POST['new']) . $salt);
 		
 		connectToDb();
-		mysql_query(sprintf("UPDATE `TaCollection` SET `password`='%s' WHERE `TaCollection`.`taid`=%d",$new,$_SESSION['user']->getId()));
+		mysql_query(sprintf("UPDATE `TaCollection` SET `password`='%s' WHERE `TaCollection`.`taid`=%d",addslashes($new),$_SESSION['user']->getId()));
 		
 		echo '<script type="text/javascript">document.getElementById("changePasswordButton").disabled = true;</script>';
 		out("Password updated successfully");

@@ -42,8 +42,7 @@ $(document).ready(function()
 <p class="gray">
 	<span style="color:#8888FF;font-weight:bold;">TECH ON DEMAND </span>is an open resource forum that seeks to satiate your curiosity for various technical subjects. These resources will exist through semesters and is available to the general public for free. We aim to bring Georgia Institute of Technology caliber education to any and all that have a desire to learn.<br /><br />
 	<b>Choose a class below:</b>
-</span>
-
+</p>
 <?php
 
 	// map from short class subject to full subject name
