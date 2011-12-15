@@ -1,0 +1,22 @@
+TRIVIAL
+------------------------------------------------------
+increase post.`description` field capacity
+inconsistent char count on update profile form
+______________________________________________________
+
+
+
+MINOR
+------------------------------------------------------
+parameterized SQL queries (injection prevention)
+proper escaping on most form fields
+______________________________________________________
+
+
+
+MAJOR
+------------------------------------------------------
+comments
+class admin
+TA admin
+______________________________________________________
