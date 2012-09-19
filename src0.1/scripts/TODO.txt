@@ -5,18 +5,18 @@ inconsistent char count on update profile form
 ______________________________________________________
 
 
-
 MINOR
 ------------------------------------------------------
+object/GUI organization
 parameterized SQL queries (injection prevention)
-proper escaping on most form fields
+proper escaping on most form fields (esp update profile)
 ______________________________________________________
-
 
 
 MAJOR
 ------------------------------------------------------
-comments
 class admin
 TA admin
+external video storage (YT)
+comments
 ______________________________________________________
